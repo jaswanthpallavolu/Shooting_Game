@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "megan-project.sln"
+    "dotnet.defaultSolution": "megan-project.sln",
+    "editor.codeLens": false,
 }
