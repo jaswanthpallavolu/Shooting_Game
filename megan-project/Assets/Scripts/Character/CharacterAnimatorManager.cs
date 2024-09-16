@@ -1,18 +1,39 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterAnimatorController : MonoBehaviour
+public class CharacterAnimatorManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    CharacterManager characterManager;
+    int vertical, horizontal;
+
+    [SerializeField][Range(0, 1)] public float animationDamp = .1f;
+
+    protected virtual void Awake()
     {
-        
+        characterManager = GetComponentInParent<CharacterManager>();
+        horizontal = Animator.StringToHash("horizontal");
+        vertical = Animator.StringToHash("vertical");
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        
+
+    }
+
+    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting)
+    {
+        float horizontalAmount = horizontalValue;
+        float verticalAmount = verticalValue;
+
+        if (isSprinting)
+        {
+            verticalAmount = 2f;
+        }
+
+        characterManager.animator.SetFloat(horizontal, horizontalAmount, animationDamp, Time.deltaTime);
+        characterManager.animator.SetFloat(vertical, verticalAmount, animationDamp, Time.deltaTime);
+
     }
 }

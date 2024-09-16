@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class CharacterManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [HideInInspector] public CharacterController characterController;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
+
+    [Header("Flags")]
+    public bool isPerformingAction = false;
+    public bool applyRootMotion = false;
+    public bool isJumping = false;
+    public bool isGrounded = false;
+    public bool canMove = false;
+    public bool canRotate = false;
+    public bool isDead = false;
+    public bool isOwner = true;
+
+    [Header("Custom")]
+    public MovementType movementType;
+
+    protected virtual void Awake()
     {
-        
+        DontDestroyOnLoad(this);
+        characterController = GetComponent<CharacterController>();
+        animator = GetComponentInChildren<Animator>();
+        characterAnimatorManager = GetComponentInChildren<CharacterAnimatorManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Start()
     {
-        
+
+    }
+
+    protected virtual void Update()
+    {
+
     }
 }
