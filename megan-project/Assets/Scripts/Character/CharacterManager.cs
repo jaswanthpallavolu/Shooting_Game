@@ -17,6 +17,7 @@ public class CharacterManager : MonoBehaviour
     public bool canRotate = false;
     public bool isDead = false;
     public bool isOwner = true;
+    public bool isAiming = false;
 
     [Header("Custom")]
     public MovementType movementType;

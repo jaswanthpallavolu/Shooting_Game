@@ -14,6 +14,11 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] Vector2 movementInput;
     public float verticalInput, horizontalInput, moveAmount;
 
+    [Header("Player Aiming")]
+    public bool aimInput = false;
+    public Vector2 lookInput;
+
+
     void Awake()
     {
         if (instance == null)
@@ -29,6 +34,7 @@ public class PlayerInputManager : MonoBehaviour
     void Update()
     {
         HandleMovementInput();
+        HandleAimInput();
     }
 
     private void OnEnable()
@@ -39,6 +45,11 @@ public class PlayerInputManager : MonoBehaviour
         }
         playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>();
         playerControls.PlayerMovement.Movement.canceled += i => movementInput = i.ReadValue<Vector2>();
+        playerControls.PlayerMovement.Look.performed += i => lookInput = i.ReadValue<Vector2>();
+        playerControls.PlayerMovement.Look.canceled += i => lookInput = i.ReadValue<Vector2>();
+
+        playerControls.PlayerAim.Aim.performed += i => aimInput = true;
+        playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
 
         playerControls.Enable();
     }
@@ -64,5 +75,11 @@ public class PlayerInputManager : MonoBehaviour
         }
 
 
+    }
+
+    private void HandleAimInput()
+    {
+        player.isAiming = aimInput;
+        player.playerCameraController.HandleAimMode(aimInput);
     }
 }
