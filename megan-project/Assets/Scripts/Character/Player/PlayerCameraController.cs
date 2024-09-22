@@ -32,6 +32,7 @@ public class PlayerCameraController : MonoBehaviour
         {
             aimModeCamera.enabled = true;
 
+
             if (!aimMode)
             {
                 Quaternion look = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
@@ -42,26 +43,31 @@ public class PlayerCameraController : MonoBehaviour
                 }
                 float xAngle = Mathf.Clamp(xLook, xLimitMin, xLimitMax);
                 xRotation = xAngle;
+                followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
                 player.transform.rotation = Quaternion.Euler(0, look.eulerAngles.y, 0);
-                aimMode = true;
+
             }
 
             if (aimMode)
             {
-                xRotation -= lookInput.y * Time.deltaTime;
-                xRotation = Mathf.Clamp(xRotation, xLimitMin, xLimitMax);
-                followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
-
-                float moveX = lookInput.x * Time.deltaTime;
-                player.transform.Rotate(Vector3.up * moveX);
+                OnAimView();
             }
-
-
+            aimMode = true;
         }
         else
         {
             aimModeCamera.enabled = false;
             aimMode = false;
         }
+    }
+
+    private void OnAimView()
+    {
+        xRotation -= lookInput.y * Time.deltaTime;
+        xRotation = Mathf.Clamp(xRotation, xLimitMin, xLimitMax);
+        followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+
+        float moveX = lookInput.x * Time.deltaTime;
+        player.transform.Rotate(Vector3.up * moveX);
     }
 }
