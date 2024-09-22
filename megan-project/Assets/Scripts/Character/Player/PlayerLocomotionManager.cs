@@ -35,6 +35,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleMovement()
     {
+        if (player.isPerformingAction) return;
         if (player.movementType == MovementType.Forward)
         {
             ForwardMovement();

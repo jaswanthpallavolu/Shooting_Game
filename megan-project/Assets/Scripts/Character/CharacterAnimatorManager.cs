@@ -36,4 +36,14 @@ public class CharacterAnimatorManager : MonoBehaviour
         characterManager.animator.SetFloat(vertical, verticalAmount, animationDamp, Time.deltaTime);
 
     }
+
+    public void PlayTargetParkourAnimation(string targetAnimation, bool isPerformingAction,
+   bool applyRootMotion = true, bool canMove = false, bool canRotate = false)
+    {
+        characterManager.animator.CrossFade(targetAnimation, .2f);
+        characterManager.isPerformingAction = isPerformingAction;
+        characterManager.canMove = canMove;
+        characterManager.canRotate = canRotate;
+        characterManager.applyRootMotion = applyRootMotion;
+    }
 }
