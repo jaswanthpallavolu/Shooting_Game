@@ -12,6 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 013e35b6dd619684ea716f4b4efda7d4, type: 3}
   m_Name: vault
   m_EditorClassIdentifier: 
+  obstacleTag: Fence
   animation: Obstacle_Vault
   minHeight: 0.3
   maxHeight: 1
+  rotateToObstacle: 1
+  rotationSpeed: 100
+  targetRotation: {x: 0, y: -0, z: -0, w: 1}
+  enableTargetMatching: 1
+  matchBodyPart: 5
+  matchStartTime: 0
+  matchTargetTime: 0.2
+  matchPosWeight: {x: 1, y: 1, z: 0}
+  MatchPos: {x: -3.7171059, y: 1.5953338, z: 6.286921}

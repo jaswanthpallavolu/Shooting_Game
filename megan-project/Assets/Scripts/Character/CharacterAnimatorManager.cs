@@ -45,5 +45,6 @@ public class CharacterAnimatorManager : MonoBehaviour
         characterManager.canMove = canMove;
         characterManager.canRotate = canRotate;
         characterManager.applyRootMotion = applyRootMotion;
+        characterManager.applyBuiltInRootMotion = true;
     }
 }

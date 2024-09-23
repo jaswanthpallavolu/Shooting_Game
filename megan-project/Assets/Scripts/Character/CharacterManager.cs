@@ -11,6 +11,7 @@ public class CharacterManager : MonoBehaviour
     [Header("Flags")]
     public bool isPerformingAction = false;
     public bool applyRootMotion = false;
+    public bool applyBuiltInRootMotion = false;
     public bool isJumping = false;
     public bool isGrounded = false;
     public bool canMove = false;

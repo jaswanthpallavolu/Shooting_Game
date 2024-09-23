@@ -61,6 +61,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleMovementInput()
     {
+        if (!player.canMove) return;
         horizontalInput = movementInput.x;
         verticalInput = movementInput.y;
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
@@ -79,6 +80,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleAimInput()
     {
+        if (!player.canMove) return;
         player.isAiming = aimInput;
         player.playerCameraController.HandleAimMode(aimInput);
     }

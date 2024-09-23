@@ -23,34 +23,39 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     protected virtual void Update()
     {
-        HandleGroundCheck();
-
-        if (character.isGrounded)
+        if (!character.isPerformingAction)
         {
 
-            // IF WE ARE NOT ATTEMPTING TO JUMP OR MOVE UPWARD
-            if (yVelocity.y < 0)
-            {
-                inAirTimer = 0;
-                fallingVelocityHasBeenSet = false;
-                yVelocity.y = groundedYVelocity;
-            }
-        }
-        else
-        {
-            // IF WE ARE NOT JUMPING AND FALL VELOCITY HAS NOT BEEN SET
-            if (!character.isJumping && !fallingVelocityHasBeenSet)
-            {
-                fallingVelocityHasBeenSet = true;
-                yVelocity.y = fallStartYVelocity;
-            }
-            inAirTimer += Time.deltaTime;
-            character.animator.SetFloat("inAirTimer", inAirTimer);
-            yVelocity.y += groundForce * Time.deltaTime;
+            HandleGroundCheck();
 
+            if (character.isGrounded)
+            {
+
+                // IF WE ARE NOT ATTEMPTING TO JUMP OR MOVE UPWARD
+                if (yVelocity.y < 0)
+                {
+                    inAirTimer = 0;
+                    fallingVelocityHasBeenSet = false;
+                    yVelocity.y = groundedYVelocity;
+                }
+            }
+            else
+            {
+                // IF WE ARE NOT JUMPING AND FALL VELOCITY HAS NOT BEEN SET
+                if (!character.isJumping && !fallingVelocityHasBeenSet)
+                {
+                    fallingVelocityHasBeenSet = true;
+                    yVelocity.y = fallStartYVelocity;
+                }
+                inAirTimer += Time.deltaTime;
+                character.animator.SetFloat("inAirTimer", inAirTimer);
+                yVelocity.y += groundForce * Time.deltaTime;
+
+            }
+
+            character.characterController.Move(yVelocity * Time.deltaTime);
         }
 
-        character.characterController.Move(yVelocity * Time.deltaTime);
     }
 
     protected void HandleGroundCheck()

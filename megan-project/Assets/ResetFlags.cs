@@ -11,10 +11,12 @@ public class ResetFlags : StateMachineBehaviour
         if (character != null)
         {
             character.applyRootMotion = false;
+            character.characterController.enabled = true;
             character.characterController.excludeLayers = new LayerMask();
             character.canMove = true;
             character.canRotate = true;
             character.isPerformingAction = false;
+            character.applyBuiltInRootMotion = false;
         }
     }
 
