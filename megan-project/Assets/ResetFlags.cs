@@ -11,6 +11,7 @@ public class ResetFlags : StateMachineBehaviour
         if (character != null)
         {
             character.applyRootMotion = false;
+            animator.SetBool("parkour", false);
             character.characterController.enabled = true;
             character.characterController.excludeLayers = new LayerMask();
             character.canMove = true;

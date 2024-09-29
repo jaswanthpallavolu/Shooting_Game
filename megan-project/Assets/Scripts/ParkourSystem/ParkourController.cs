@@ -34,44 +34,45 @@ public class ParkourController : MonoBehaviour
                     if (action.CheckIfPossible(hitData, player.transform))
                     {
 
-
                         if (action.rotateToObstacle)
                         {
                             player.transform.rotation = Quaternion.Slerp(player.transform.rotation, action.targetRotation, action.rotationSpeed * Time.deltaTime);
                         }
                         currentAction = action;
-                        GameObject sphere = Instantiate(debugSphere, action.MatchPos + Vector3.forward * .5f, quaternion.identity);
+                        GameObject sphere = Instantiate(debugSphere, action.MatchPos, quaternion.identity);
                         Destroy(sphere, 5f);
-                        StartCoroutine(PerformParkourAction(action));
-                        // player.playerAnimatorManager.PlayTargetParkourAnimation(action.animation, true);
-                        // player.characterController.enabled = false;
 
-
-
+                        // StartCoroutine(PerformParkourAction(action));
+                        player.characterController.enabled = false;
+                        player.playerAnimatorManager.PlayTargetParkourAnimation(action.animation, true);
                     }
                 }
             }
         }
 
-        // if (currentAction != null && player.animator.GetCurrentAnimatorStateInfo(parkourAnimationLayer).IsName(currentAction.animation))
-        // {
-        //     if (currentAction.enableTargetMatching)
-        //     {
-        //         // if (player.animator.isMatchingTarget)
-        //         // {
-        //         //     return;
-        //         // }
+        if (currentAction != null && player.animator.GetCurrentAnimatorStateInfo(parkourAnimationLayer).IsName(currentAction.animation))
+        {
+            if (currentAction.rotateToObstacle)
+            {
+                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, currentAction.targetRotation, currentAction.rotationSpeed * Time.deltaTime);
+            }
+            if (currentAction.enableTargetMatching)
+            {
+                if (player.animator.isMatchingTarget)
+                {
+                    return;
+                }
 
-        //         MatchTarget(currentAction);
-        //     }
-        // }
+                MatchTarget(currentAction);
+            }
+        }
     }
 
     private IEnumerator PerformParkourAction(ParkourAction action)
     {
         // player.characterController.excludeLayers = obstacleLayer;
-        player.playerAnimatorManager.PlayTargetParkourAnimation(action.animation, true);
         player.characterController.enabled = false;
+        player.playerAnimatorManager.PlayTargetParkourAnimation(action.animation, true);
         yield return null;
 
         var animationState = player.animator.GetNextAnimatorStateInfo(0);
@@ -80,7 +81,10 @@ public class ParkourController : MonoBehaviour
         while (timer <= animationState.length)
         {
             timer += Time.deltaTime;
-
+            if (action.rotateToObstacle)
+            {
+                player.transform.rotation = Quaternion.RotateTowards(player.transform.rotation, action.targetRotation, action.rotationSpeed * Time.deltaTime);
+            }
             if (action.enableTargetMatching)
             {
                 MatchTarget(action);
@@ -88,12 +92,13 @@ public class ParkourController : MonoBehaviour
             yield return null;
         }
 
-        // player.characterController.enabled = true;
+        yield return new WaitForSeconds(action.postDelay);
+        player.characterController.enabled = true;
     }
 
     void MatchTarget(ParkourAction action)
     {
-        player.animator.MatchTarget(action.MatchPos + Vector3.forward * .5f, player.transform.rotation, action.matchBodyPart,
+        player.animator.MatchTarget(action.MatchPos, player.transform.rotation, action.matchBodyPart,
         new MatchTargetWeightMask(action.matchPosWeight, 0), action.matchStartTime, action.matchTargetTime);
         Debug.Log("matching..");
     }

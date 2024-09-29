@@ -8,7 +8,8 @@ public class CharacterAnimatorManager : MonoBehaviour
     CharacterManager characterManager;
     int vertical, horizontal;
 
-    [SerializeField][Range(0, 1)] public float animationDamp = .1f;
+    [SerializeField] float parkourAnimationDamp = .2f;
+    [SerializeField][Range(0, 1)] public float movementAnimationDamp = .2f;
 
     protected virtual void Awake()
     {
@@ -32,15 +33,17 @@ public class CharacterAnimatorManager : MonoBehaviour
             verticalAmount = 2f;
         }
 
-        characterManager.animator.SetFloat(horizontal, horizontalAmount, animationDamp, Time.deltaTime);
-        characterManager.animator.SetFloat(vertical, verticalAmount, animationDamp, Time.deltaTime);
+        characterManager.animator.SetFloat(horizontal, horizontalAmount, movementAnimationDamp, Time.deltaTime);
+        characterManager.animator.SetFloat(vertical, verticalAmount, movementAnimationDamp, Time.deltaTime);
 
     }
 
     public void PlayTargetParkourAnimation(string targetAnimation, bool isPerformingAction,
    bool applyRootMotion = true, bool canMove = false, bool canRotate = false)
     {
-        characterManager.animator.CrossFade(targetAnimation, .2f);
+        // characterManager.animator.SetFloat(vertical, 1f); // workaround
+        characterManager.animator.SetBool("parkour", true);
+        characterManager.animator.CrossFade(targetAnimation, parkourAnimationDamp);
         characterManager.isPerformingAction = isPerformingAction;
         characterManager.canMove = canMove;
         characterManager.canRotate = canRotate;

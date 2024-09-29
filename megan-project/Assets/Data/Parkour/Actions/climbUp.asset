@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 013e35b6dd619684ea716f4b4efda7d4, type: 3}
-  m_Name: vault
+  m_Name: climbUp
   m_EditorClassIdentifier: 
   obstacleTag: Fence
-  animation: Obstacle_Vault
-  minHeight: 0.3
-  maxHeight: 1
+  animation: Obstacle_ClimbM
+  minHeight: 1.1
+  maxHeight: 2
   rotateToObstacle: 1
-  rotationSpeed: 100
-  targetRotation: {x: 0, y: -0, z: -0, w: 1}
+  rotationSpeed: 2
+  targetRotation: {x: 0, y: 1, z: -0, w: -0}
   enableTargetMatching: 1
   matchBodyPart: 5
-  matchStartTime: 0
+  matchStartTime: 0.1
   matchTargetTime: 0.25
   matchPosWeight: {x: 0, y: 1, z: 1}
   postDelay: 0
-  MatchPos: {x: -3.6237037, y: 1.5953338, z: 6.286921}
+  MatchPos: {x: 1.5726987, y: 2.6114337, z: 10.915016}

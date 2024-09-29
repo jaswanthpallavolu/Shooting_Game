@@ -21,6 +21,7 @@ public class ParkourAction : ScriptableObject
     public float matchStartTime;
     public float matchTargetTime;
     public Vector3 matchPosWeight;
+    public float postDelay;
 
     // public Vector3 MatchPos { get; set; }
     public Vector3 MatchPos;
