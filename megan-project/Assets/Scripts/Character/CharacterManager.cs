@@ -23,6 +23,9 @@ public class CharacterManager : MonoBehaviour
     [Header("Custom")]
     public MovementType movementType;
 
+    [Header("Parkour Flags")]
+    public bool isOnLedge = false;
+
     protected virtual void Awake()
     {
         DontDestroyOnLoad(this);

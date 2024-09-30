@@ -36,20 +36,20 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private void HandleMovement()
     {
         if (!player.canMove) return;
+        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
+        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
         if (player.movementType == MovementType.Forward)
         {
-            ForwardMovement();
+            ForwardMovement(moveDirection);
         }
         else if (player.movementType == MovementType.Straf)
         {
-            StrafMovement();
+            StrafMovement(moveDirection);
         }
     }
 
-    private void StrafMovement()
+    private void StrafMovement(Vector3 moveDirection)
     {
-        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
         moveDirection.Normalize();
         moveDirection.y = 0;
         if (moveDirection.magnitude >= 0.1f)
@@ -65,10 +65,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         }
     }
 
-    private void ForwardMovement()
+    private void ForwardMovement(Vector3 moveDirection)
     {
-        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
         moveDirection.Normalize();
         moveDirection.y = 0;
         if (moveDirection.magnitude >= 0.1f)
