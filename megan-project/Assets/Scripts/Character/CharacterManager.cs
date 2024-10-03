@@ -7,6 +7,7 @@ public class CharacterManager : MonoBehaviour
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public Animator animator;
     [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
+    [HideInInspector] public EnvironmentScanner environmentScanner;
 
     [Header("Flags")]
     public bool isPerformingAction = false;
@@ -24,7 +25,9 @@ public class CharacterManager : MonoBehaviour
     public MovementType movementType;
 
     [Header("Parkour Flags")]
+    public bool isPerformingParkourAction = false;
     public bool isOnLedge = false;
+    public LedgeData ledgeData;
 
     protected virtual void Awake()
     {
@@ -32,6 +35,7 @@ public class CharacterManager : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         characterAnimatorManager = GetComponentInChildren<CharacterAnimatorManager>();
+        environmentScanner = GetComponent<EnvironmentScanner>();
     }
 
     protected virtual void Start()

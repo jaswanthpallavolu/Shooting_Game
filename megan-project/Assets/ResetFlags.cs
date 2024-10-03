@@ -17,6 +17,7 @@ public class ResetFlags : StateMachineBehaviour
             character.canMove = true;
             character.canRotate = true;
             character.isPerformingAction = false;
+            character.isPerformingParkourAction = false;
             character.applyBuiltInRootMotion = false;
         }
     }

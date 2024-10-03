@@ -7,6 +7,7 @@ public class PlayerManager : CharacterManager
     [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
     [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
     [HideInInspector] public PlayerCameraController playerCameraController;
+    [HideInInspector] public ParkourController parkourController;
 
     protected override void Awake()
     {
@@ -18,6 +19,7 @@ public class PlayerManager : CharacterManager
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
         playerCameraController = GetComponent<PlayerCameraController>();
+        parkourController = GetComponent<ParkourController>();
     }
 
     protected override void Start()

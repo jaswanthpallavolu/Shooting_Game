@@ -23,7 +23,7 @@ public class CharacterAnimatorManager : MonoBehaviour
 
     }
 
-    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting)
+    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting, bool damp = true)
     {
         float horizontalAmount = horizontalValue;
         float verticalAmount = verticalValue;
@@ -33,21 +33,30 @@ public class CharacterAnimatorManager : MonoBehaviour
             verticalAmount = 2f;
         }
 
-        characterManager.animator.SetFloat(horizontal, horizontalAmount, movementAnimationDamp, Time.deltaTime);
-        characterManager.animator.SetFloat(vertical, verticalAmount, movementAnimationDamp, Time.deltaTime);
+        characterManager.animator.SetFloat(horizontal, horizontalAmount, damp ? movementAnimationDamp : 0, Time.deltaTime);
+        characterManager.animator.SetFloat(vertical, verticalAmount, damp ? movementAnimationDamp : 0, Time.deltaTime);
 
     }
 
     public void PlayTargetParkourAnimation(string targetAnimation, bool isPerformingAction,
-   bool applyRootMotion = true, bool canMove = false, bool canRotate = false)
+        bool applyRootMotion = true, bool canMove = false, bool canRotate = false)
     {
-        // characterManager.animator.SetFloat(vertical, 1f); // workaround
         characterManager.animator.SetBool("parkour", true);
         characterManager.animator.CrossFade(targetAnimation, parkourAnimationDamp);
+        characterManager.isPerformingAction = isPerformingAction;
+        characterManager.isPerformingParkourAction = isPerformingAction;
+        characterManager.canMove = canMove;
+        characterManager.canRotate = canRotate;
+        characterManager.applyRootMotion = applyRootMotion;
+    }
+
+    public void PlayTargetAnimation(string targetAnimation, bool isPerformingAction,
+        bool applyRootMotion = true, bool canMove = false, bool canRotate = false)
+    {
+        characterManager.animator.CrossFade(targetAnimation, movementAnimationDamp);
         characterManager.isPerformingAction = isPerformingAction;
         characterManager.canMove = canMove;
         characterManager.canRotate = canRotate;
         characterManager.applyRootMotion = applyRootMotion;
-        characterManager.applyBuiltInRootMotion = true;
     }
 }

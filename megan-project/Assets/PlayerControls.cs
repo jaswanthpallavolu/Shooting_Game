@@ -165,6 +165,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""56f6cced-b159-4111-8f86-365487f675d1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -211,6 +220,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0612175f-116e-4cea-bd99-455aa8ce5848"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -255,6 +275,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Crounch = m_PlayerActions.FindAction("Crounch", throwIfNotFound: true);
         m_PlayerActions_Crawling = m_PlayerActions.FindAction("Crawling", throwIfNotFound: true);
         m_PlayerActions_Interact = m_PlayerActions.FindAction("Interact", throwIfNotFound: true);
+        m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         // Player Aim
         m_PlayerAim = asset.FindActionMap("Player Aim", throwIfNotFound: true);
         m_PlayerAim_Aim = m_PlayerAim.FindAction("Aim", throwIfNotFound: true);
@@ -377,6 +398,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Crounch;
     private readonly InputAction m_PlayerActions_Crawling;
     private readonly InputAction m_PlayerActions_Interact;
+    private readonly InputAction m_PlayerActions_Jump;
     public struct PlayerActionsActions
     {
         private @PlayerControls m_Wrapper;
@@ -385,6 +407,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Crounch => m_Wrapper.m_PlayerActions_Crounch;
         public InputAction @Crawling => m_Wrapper.m_PlayerActions_Crawling;
         public InputAction @Interact => m_Wrapper.m_PlayerActions_Interact;
+        public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -406,6 +429,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -422,6 +448,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -496,6 +525,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCrounch(InputAction.CallbackContext context);
         void OnCrawling(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IPlayerAimActions
     {

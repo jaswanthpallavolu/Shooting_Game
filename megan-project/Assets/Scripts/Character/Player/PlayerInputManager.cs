@@ -10,13 +10,16 @@ public class PlayerInputManager : MonoBehaviour
     PlayerControls playerControls;
     [HideInInspector] public PlayerManager player;
 
-    [Header("Player Movement Input")]
+    [Header("Movement Input")]
     [SerializeField] Vector2 movementInput;
     public float verticalInput, horizontalInput, moveAmount;
 
-    [Header("Player Aiming")]
+    [Header("Aiming")]
     public bool aimInput = false;
     public Vector2 lookInput;
+
+    [Header("Actions")]
+    public bool jumpInput = false;
 
 
     void Awake()
@@ -35,6 +38,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         HandleMovementInput();
         HandleAimInput();
+        HandleJumpInput();
     }
 
     private void OnEnable()
@@ -51,6 +55,8 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerAim.Aim.performed += i => aimInput = true;
         playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
 
+        playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+
         playerControls.Enable();
     }
 
@@ -61,18 +67,18 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleMovementInput()
     {
-        if (!player.canMove) return;
         horizontalInput = movementInput.x;
         verticalInput = movementInput.y;
-        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
+        bool damp = true;
 
+        moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
         if (player.movementType == MovementType.Forward)
         {
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, false);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, !player.isOnLedge ? moveAmount : 0, false, damp);
         }
         else if (player.movementType == MovementType.Straf)
         {
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput, false);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput, false, damp);
         }
 
 
@@ -83,5 +89,15 @@ public class PlayerInputManager : MonoBehaviour
         if (!player.canMove) return;
         player.isAiming = aimInput;
         player.playerCameraController.HandleAimMode(aimInput);
+    }
+
+    private void HandleJumpInput()
+    {
+        if (jumpInput)
+        {
+            jumpInput = false;
+            if (player.isPerformingAction) return;
+            player.parkourController.HandleActions();
+        }
     }
 }

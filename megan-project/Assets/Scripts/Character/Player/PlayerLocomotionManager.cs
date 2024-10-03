@@ -11,7 +11,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float walkingSpeed = 2f;
     [SerializeField] float runningSpeed = 4f;
     [SerializeField] float sprintSpeed = 8f;
-    Vector3 moveDirection;
+    [SerializeField] Vector3 moveDirection;
+    [SerializeField] Vector3 prevMoveDirection;
     float turnSmoothVelocity;
     float verticalInput, horizontalInput, moveAmount;
     bool isSprinting = false;
@@ -30,14 +31,62 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         horizontalInput = PlayerInputManager.instance.horizontalInput;
         moveAmount = PlayerInputManager.instance.moveAmount;
 
+        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
+        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+
+        HandleLedgeCheck();
         HandleMovement();
+
+    }
+
+    private void HandleLedgeCheck()
+    {
+        if (player.isGrounded)
+        {
+            player.isOnLedge = player.environmentScanner.LedgeCheck(moveDirection, out player.ledgeData) && !player.parkourController.hitData.forwardHitFound;
+        }
+        prevMoveDirection = moveDirection;
+
+        if (player.isOnLedge)
+        {
+            HandleLedgeMovement();
+        }
+    }
+
+    private void HandleLedgeMovement()
+    {
+        float signedAngle = Vector3.SignedAngle(player.ledgeData.surfaceHit.normal, moveDirection, Vector3.up);
+        float angle = Mathf.Abs(signedAngle);
+
+        if (Vector3.Angle(moveDirection, player.transform.forward) >= 45)
+        {
+            // player.canMove = false;
+            // DONT MOVE, DO ROTATE
+            // TURN THE BODY TO FACE THE INPUT DIRECTION
+            float targetAngle = Mathf.Atan2(moveDirection.x, moveDirection.z) * Mathf.Rad2Deg;
+            float transformAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, .1f);
+            transform.rotation = Quaternion.Euler(0, transformAngle, 0);
+            return;
+        }
+
+        Debug.Log(angle);
+        if (angle < 60)
+        {
+            // player.canMove = false;
+            moveDirection = Vector3.zero;
+        }
+        else if (angle < 90)
+        {
+            Vector3 left = Vector3.Cross(Vector3.up, player.ledgeData.surfaceHit.normal);
+            Vector3 dir = left * Mathf.Sign(signedAngle);
+            player.canMove = true;
+            moveDirection = dir;
+        }
     }
 
     private void HandleMovement()
     {
         if (!player.canMove) return;
-        moveDirection = new Vector3(horizontalInput, 0, verticalInput);
-        moveDirection = Camera.main.transform.TransformDirection(moveDirection);
         if (player.movementType == MovementType.Forward)
         {
             ForwardMovement(moveDirection);

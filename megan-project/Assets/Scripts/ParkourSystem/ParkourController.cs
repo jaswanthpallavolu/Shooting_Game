@@ -6,49 +6,26 @@ using UnityEngine;
 
 public class ParkourController : MonoBehaviour
 {
-    EnvironmentScanner environmentScanner;
     PlayerManager player;
     [SerializeField] LayerMask obstacleLayer;
     [SerializeField] List<ParkourAction> parkourActions;
-    public ParkourAction currentAction;
+    [SerializeField] ParkourAction JumpDownAction;
     [SerializeField] int parkourAnimationLayer = 2;
+    [SerializeField] public ObstacleHitData hitData;
+
+    [Header("Debug")]
+    [SerializeField] ParkourAction currentAction;
     [SerializeField] GameObject debugSphere;
+
 
     void Awake()
     {
-        environmentScanner = GetComponent<EnvironmentScanner>();
         player = GetComponent<PlayerManager>();
     }
 
     void Update()
     {
-
-        var hitData = environmentScanner.ObstacleCheck();
-        if (hitData.forwardHitFound)
-        {
-            // Debug.Log("Obstacle found: " + hitData.forwardHit.transform.name);
-            if (Input.GetKeyDown(KeyCode.Space) && !player.isPerformingAction)
-            {
-                foreach (var action in parkourActions)
-                {
-                    if (action.CheckIfPossible(hitData, player.transform))
-                    {
-
-                        if (action.rotateToObstacle)
-                        {
-                            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, action.targetRotation, action.rotationSpeed * Time.deltaTime);
-                        }
-                        currentAction = action;
-                        GameObject sphere = Instantiate(debugSphere, action.MatchPos, quaternion.identity);
-                        Destroy(sphere, 5f);
-
-                        // StartCoroutine(PerformParkourAction(action));
-                        player.characterController.enabled = false;
-                        player.playerAnimatorManager.PlayTargetParkourAnimation(action.animation, true);
-                    }
-                }
-            }
-        }
+        hitData = player.environmentScanner.ObstacleCheck();
 
         if (currentAction != null && player.animator.GetCurrentAnimatorStateInfo(parkourAnimationLayer).IsName(currentAction.animation))
         {
@@ -58,12 +35,56 @@ public class ParkourController : MonoBehaviour
             }
             if (currentAction.enableTargetMatching)
             {
-                if (player.animator.isMatchingTarget)
-                {
-                    return;
-                }
-
+                // if (player.animator.isMatchingTarget)
+                // {
+                //     return;
+                // }
                 MatchTarget(currentAction);
+            }
+        }
+    }
+
+    public void HandleActions()
+    {
+        HandleObstacleAction();
+        HandleLedgeJump();
+    }
+
+    private void HandleObstacleAction()
+    {
+        if (hitData.forwardHitFound)
+        {
+            if (!player.isPerformingAction)
+            {
+                foreach (var action in parkourActions)
+                {
+                    if (action.CheckIfPossible(hitData, player.transform))
+                    {
+                        currentAction = action;
+                        GameObject sphere = Instantiate(debugSphere, action.MatchPos, quaternion.identity);
+                        Destroy(sphere, 2f);
+
+                        // StartCoroutine(PerformParkourAction(action));
+                        player.characterController.enabled = false;
+                        player.playerAnimatorManager.PlayTargetParkourAnimation(action.animation, true);
+                    }
+                }
+            }
+        }
+        else
+        {
+            currentAction = null;
+        }
+    }
+
+    private void HandleLedgeJump()
+    {
+        if (player.isOnLedge && !player.isPerformingAction && !hitData.forwardHitFound)
+        {
+            if (player.ledgeData.angle <= 50)
+            {
+                player.characterController.enabled = false;
+                player.playerAnimatorManager.PlayTargetAnimation(JumpDownAction.animation, true);
             }
         }
     }
@@ -100,6 +121,5 @@ public class ParkourController : MonoBehaviour
     {
         player.animator.MatchTarget(action.MatchPos, player.transform.rotation, action.matchBodyPart,
         new MatchTargetWeightMask(action.matchPosWeight, 0), action.matchStartTime, action.matchTargetTime);
-        Debug.Log("matching..");
     }
 }

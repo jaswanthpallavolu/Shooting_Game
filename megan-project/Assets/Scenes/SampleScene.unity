@@ -5322,7 +5322,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.3846726, y: 2.4219997, z: -2.16}
+  m_LocalPosition: {x: 2.4020588, y: 6.77296, z: 7.3500004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7465,7 +7465,7 @@ GameObject:
   - component: {fileID: 1213738483}
   - component: {fileID: 1213738482}
   - component: {fileID: 1213738481}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12253,15 +12253,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8729703598779207645, guid: 7b68c40409a4b464bb71660a05aab1f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3846726
+      value: 2.4020588
       objectReference: {fileID: 0}
     - target: {fileID: 8729703598779207645, guid: 7b68c40409a4b464bb71660a05aab1f5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.4219997
+      value: 6.77296
       objectReference: {fileID: 0}
     - target: {fileID: 8729703598779207645, guid: 7b68c40409a4b464bb71660a05aab1f5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.16
+      value: 7.3500004
       objectReference: {fileID: 0}
     - target: {fileID: 8729703598779207645, guid: 7b68c40409a4b464bb71660a05aab1f5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12374,15 +12374,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1563336403396944727, guid: d3057f4ffad7d4a78ab3cafd562e1f38, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.87
+      value: 0.89
       objectReference: {fileID: 0}
     - target: {fileID: 1563336403396944727, guid: d3057f4ffad7d4a78ab3cafd562e1f38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.611
+      value: 4.9619603
       objectReference: {fileID: 0}
     - target: {fileID: 1563336403396944727, guid: d3057f4ffad7d4a78ab3cafd562e1f38, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.84
+      value: 13.35
       objectReference: {fileID: 0}
     - target: {fileID: 1563336403396944727, guid: d3057f4ffad7d4a78ab3cafd562e1f38, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12602,7 +12602,7 @@ MonoBehaviour:
   groundForce: -9.18
   groundLayer:
     serializedVersion: 2
-    m_Bits: 65
+    m_Bits: 73
   groundSphereRadius: 0.25
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
@@ -12610,6 +12610,8 @@ MonoBehaviour:
   walkingSpeed: 2
   runningSpeed: 4
   sprintSpeed: 8
+  moveDirection: {x: 0, y: 0, z: 0}
+  prevMoveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &8857176359930817902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12625,6 +12627,7 @@ MonoBehaviour:
   characterController: {fileID: 0}
   animator: {fileID: 0}
   characterAnimatorManager: {fileID: 0}
+  environmentScanner: {fileID: 0}
   isPerformingAction: 0
   applyRootMotion: 0
   applyBuiltInRootMotion: 0
@@ -12636,6 +12639,8 @@ MonoBehaviour:
   isOwner: 1
   isAiming: 0
   movementType: 0
+  isPerformingParkourAction: 0
+  isOnLedge: 0
   playerLocomotionManager: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
   playerCameraController: {fileID: 0}
@@ -12676,9 +12681,12 @@ MonoBehaviour:
   forwardRayOffset: {x: 0, y: 0.25, z: 0}
   forwardRayLength: 0.8
   heightRayLength: 5
+  ledgeRayLength: 10
+  surfaceRayLength: 2
+  ledgeHeightThreshold: 1
   obstacleLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 72
 --- !u!114 &8857176359930817913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12697,8 +12705,9 @@ MonoBehaviour:
   parkourActions:
   - {fileID: 11400000, guid: 43fb478f5aaf3a24f85b6890450771df, type: 2}
   - {fileID: 11400000, guid: 7ea7a0b7704104229b2852ee3a0c1bb8, type: 2}
-  currentAction: {fileID: 0}
+  JumpDownAction: {fileID: 11400000, guid: 9385dc88d9c114162bd139d073b4426a, type: 2}
   parkourAnimationLayer: 0
+  currentAction: {fileID: 0}
   debugSphere: {fileID: 4548289996537267906, guid: 9776366f66401407dbb406d0590add7b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

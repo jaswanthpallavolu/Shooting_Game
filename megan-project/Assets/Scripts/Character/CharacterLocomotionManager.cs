@@ -6,7 +6,6 @@ using UnityEngine;
 public class CharacterLocomotionManager : MonoBehaviour
 {
     CharacterManager character;
-    EnvironmentScanner environmentScanner;
 
     [Header("Grounded check & Jumping")]
     [SerializeField] protected float groundForce = -9.18f;
@@ -21,27 +20,15 @@ public class CharacterLocomotionManager : MonoBehaviour
     protected virtual void Awake()
     {
         character = GetComponent<CharacterManager>();
-        environmentScanner = GetComponent<EnvironmentScanner>();
     }
 
     protected virtual void Update()
     {
-        if (character.isPerformingAction) return;
-
         HandleGroundCheck();
 
+        if (character.isPerformingParkourAction || !character.canMove) return;
         if (character.isGrounded)
         {
-
-            if (environmentScanner != null)
-            {
-                Vector3 moveDirection = new Vector3(PlayerInputManager.instance.horizontalInput, 0, PlayerInputManager.instance.verticalInput);
-                moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-                character.isOnLedge = environmentScanner.LedgeCheck(moveDirection);
-                if (character.isOnLedge) Debug.Log("yes it is ledge");
-                else Debug.Log("it is not ledge");
-            }
-
             // IF WE ARE NOT ATTEMPTING TO JUMP OR MOVE UPWARD
             if (yVelocity.y < 0)
             {
@@ -59,11 +46,12 @@ public class CharacterLocomotionManager : MonoBehaviour
                 yVelocity.y = fallStartYVelocity;
             }
             inAirTimer += Time.deltaTime;
-            character.animator.SetFloat("inAirTimer", inAirTimer);
             yVelocity.y += groundForce * Time.deltaTime;
 
         }
 
+        character.animator.SetBool("isGrounded", character.isGrounded);
+        character.animator.SetFloat("inAirTime", inAirTimer);
         character.characterController.Move(yVelocity * Time.deltaTime);
     }
 
