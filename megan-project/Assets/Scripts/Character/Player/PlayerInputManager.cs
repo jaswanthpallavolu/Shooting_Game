@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 // using UnityEngine.InputSystem;
@@ -22,6 +23,11 @@ public class PlayerInputManager : MonoBehaviour
     public bool jumpInput = false;
     public bool sprintInput = false;
 
+    [Header("Weapon")]
+    public bool equipWeapon1 = false;
+    public bool equipWeapon2 = false;
+    public bool unEquip = false;
+
 
     void Awake()
     {
@@ -41,6 +47,8 @@ public class PlayerInputManager : MonoBehaviour
         HandleAimInput();
         HandleJumpInput();
         HandleSprintInput();
+        HandleEquipWeaponInput();
+        HandleUnEquipWeaponInput();
     }
 
     private void OnEnable()
@@ -60,6 +68,10 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
         playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
         playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
+
+        playerControls.Weapon.Weapon1.performed += i => equipWeapon1 = true;
+        playerControls.Weapon.Weapon2.performed += i => equipWeapon2 = true;
+        playerControls.Weapon.UnEquip.performed += i => unEquip = true;
 
         playerControls.Enable();
     }
@@ -85,6 +97,7 @@ public class PlayerInputManager : MonoBehaviour
             {
                 moveAmount = 0.5f;
             }
+            moveAmount = 0.5f;
         }
 
         if (player.movementType == MovementType.Forward)
@@ -119,5 +132,27 @@ public class PlayerInputManager : MonoBehaviour
     private void HandleSprintInput()
     {
         player.playerLocomotionManager.HandleSprint(sprintInput);
+    }
+
+    private void HandleEquipWeaponInput()
+    {
+        if (equipWeapon1)
+        {
+            equipWeapon1 = false;
+            // player.animator.SetBool("HG_Equip", true);
+            player.playerAnimatorManager.PlayTargetAnimation("HG_Equip", true, false, true, true);
+            player.animator.SetBool("handgun", true);
+        }
+    }
+
+    private void HandleUnEquipWeaponInput()
+    {
+        if (unEquip)
+        {
+            unEquip = false;
+            player.animator.SetBool("unEquip", true);
+            player.animator.SetBool("handgun", false);
+            // player.playerAnimatorManager.PlayTargetAnimation("HG_Equip",true);
+        }
     }
 }

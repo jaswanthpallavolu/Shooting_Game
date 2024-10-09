@@ -11,3 +11,9 @@ public enum MovementType
     Forward,
     Strafe
 }
+
+public enum WeaponModelSlot
+{
+    LeftHand,
+    RightHand
+}
