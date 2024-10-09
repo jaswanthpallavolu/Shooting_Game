@@ -23,7 +23,7 @@ public class CharacterAnimatorManager : MonoBehaviour
 
     }
 
-    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting, bool damp = true)
+    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting)
     {
         float horizontalAmount = horizontalValue;
         float verticalAmount = verticalValue;
@@ -33,8 +33,8 @@ public class CharacterAnimatorManager : MonoBehaviour
             verticalAmount = 2f;
         }
 
-        characterManager.animator.SetFloat(horizontal, horizontalAmount, damp ? movementAnimationDamp : 0, Time.deltaTime);
-        characterManager.animator.SetFloat(vertical, verticalAmount, damp ? movementAnimationDamp : 0, Time.deltaTime);
+        characterManager.animator.SetFloat(horizontal, horizontalAmount, movementAnimationDamp, Time.deltaTime);
+        characterManager.animator.SetFloat(vertical, verticalAmount, movementAnimationDamp, Time.deltaTime);
 
     }
 

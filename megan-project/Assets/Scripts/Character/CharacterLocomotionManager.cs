@@ -26,7 +26,7 @@ public class CharacterLocomotionManager : MonoBehaviour
     {
         HandleGroundCheck();
 
-        if (character.isPerformingParkourAction || !character.canMove) return;
+        if (character.isPerformingParkourAction) return;
         if (character.isGrounded)
         {
             // IF WE ARE NOT ATTEMPTING TO JUMP OR MOVE UPWARD

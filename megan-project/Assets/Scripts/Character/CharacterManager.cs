@@ -14,6 +14,7 @@ public class CharacterManager : MonoBehaviour
     public bool applyRootMotion = false;
     public bool applyBuiltInRootMotion = false;
     public bool isJumping = false;
+    public bool isSprinting = false;
     public bool isGrounded = false;
     public bool canMove = false;
     public bool canRotate = false;
@@ -31,7 +32,7 @@ public class CharacterManager : MonoBehaviour
 
     protected virtual void Awake()
     {
-        DontDestroyOnLoad(this);
+        // DontDestroyOnLoad(this);
         characterController = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator>();
         characterAnimatorManager = GetComponentInChildren<CharacterAnimatorManager>();

@@ -20,6 +20,7 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("Actions")]
     public bool jumpInput = false;
+    public bool sprintInput = false;
 
 
     void Awake()
@@ -39,6 +40,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleMovementInput();
         HandleAimInput();
         HandleJumpInput();
+        HandleSprintInput();
     }
 
     private void OnEnable()
@@ -56,6 +58,8 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
 
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+        playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
+        playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
 
         playerControls.Enable();
     }
@@ -69,16 +73,27 @@ public class PlayerInputManager : MonoBehaviour
     {
         horizontalInput = movementInput.x;
         verticalInput = movementInput.y;
-        bool damp = true;
-
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
+
+        if (player.isOnLedge)
+        {
+            moveAmount = 0;
+        }
+        else if (player.movementType == MovementType.Strafe)
+        {
+            if (horizontalInput != 0 || verticalInput < 0)
+            {
+                moveAmount = 0.5f;
+            }
+        }
+
         if (player.movementType == MovementType.Forward)
         {
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, !player.isOnLedge ? moveAmount : 0, false, damp);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
         }
-        else if (player.movementType == MovementType.Straf)
+        else if (player.movementType == MovementType.Strafe)
         {
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput, false, damp);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(moveAmount > 0 ? horizontalInput : 0, moveAmount > 0 ? verticalInput : 0, player.isSprinting);
         }
 
 
@@ -99,5 +114,10 @@ public class PlayerInputManager : MonoBehaviour
             if (player.isPerformingAction) return;
             player.parkourController.HandleActions();
         }
+    }
+
+    private void HandleSprintInput()
+    {
+        player.playerLocomotionManager.HandleSprint(sprintInput);
     }
 }

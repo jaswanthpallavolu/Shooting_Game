@@ -15,7 +15,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] Vector3 prevMoveDirection;
     float turnSmoothVelocity;
     float verticalInput, horizontalInput, moveAmount;
-    bool isSprinting = false;
 
     protected override void Awake()
     {
@@ -33,6 +32,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         moveDirection = new Vector3(horizontalInput, 0, verticalInput);
         moveDirection = Camera.main.transform.TransformDirection(moveDirection);
+        moveDirection.y = 0;
 
         HandleLedgeCheck();
         HandleMovement();
@@ -43,7 +43,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         if (player.isGrounded)
         {
-            player.isOnLedge = player.environmentScanner.LedgeCheck(moveDirection, out player.ledgeData) && !player.parkourController.hitData.forwardHitFound;
+            player.isOnLedge = player.environmentScanner.LedgeCheck(moveDirection, out player.ledgeData);
         }
         prevMoveDirection = moveDirection;
 
@@ -91,13 +91,13 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         {
             ForwardMovement(moveDirection);
         }
-        else if (player.movementType == MovementType.Straf)
+        else if (player.movementType == MovementType.Strafe)
         {
-            StrafMovement(moveDirection);
+            StrafeMovement(moveDirection);
         }
     }
 
-    private void StrafMovement(Vector3 moveDirection)
+    private void StrafeMovement(Vector3 moveDirection)
     {
         moveDirection.Normalize();
         moveDirection.y = 0;
@@ -133,6 +133,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private float GetMovementSpeed(float moveAmount)
     {
+        if (player.isSprinting)
+        {
+            return sprintSpeed;
+        }
+
         if (moveAmount <= 0.5f)
         {
             return walkingSpeed;
@@ -145,5 +150,24 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         return walkingSpeed;
     }
 
+    public void HandleSprint(bool sprintInput)
+    {
+        if (sprintInput && moveAmount > 0)
+        {
+            bool strafeForwardMovement = player.movementType == MovementType.Strafe && horizontalInput == 0 && verticalInput > 0;
+            if (player.movementType == MovementType.Forward || strafeForwardMovement)
+            {
+                player.isSprinting = true;
+            }
+            else
+            {
+                player.isSprinting = false;
+            }
+        }
+        else
+        {
+            player.isSprinting = false;
+        }
+    }
 
 }

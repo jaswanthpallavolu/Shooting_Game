@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Resolvers;
 using Cinemachine;
 using UnityEngine;
 
@@ -13,6 +12,9 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] Transform followTarget;
     [SerializeField] float xLimitMin = -20;
     [SerializeField] float xLimitMax = 50;
+    [SerializeField] Vector2 defaultSpeed = new Vector2(200, 300);
+    [SerializeField] Vector2 cameraSensitivity = new Vector2(50, 50);
+    [SerializeField] Vector2 aimSensitivity = new Vector2(50, 50);
     Vector3 lookInput;
     float xRotation;
     bool aimMode;
@@ -24,6 +26,9 @@ public class PlayerCameraController : MonoBehaviour
     void Update()
     {
         lookInput = PlayerInputManager.instance.lookInput;
+
+        mainCamera.GetCinemachineComponent<CinemachinePOV>().m_HorizontalAxis.m_MaxSpeed = defaultSpeed.x * cameraSensitivity.x / 100;
+        mainCamera.GetCinemachineComponent<CinemachinePOV>().m_VerticalAxis.m_MaxSpeed = defaultSpeed.y * cameraSensitivity.y / 100;
     }
 
     public void HandleAimMode(bool aimInput)
@@ -63,11 +68,11 @@ public class PlayerCameraController : MonoBehaviour
 
     private void OnAimView()
     {
-        xRotation -= lookInput.y * Time.deltaTime;
+        xRotation -= lookInput.y * aimSensitivity.x * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, xLimitMin, xLimitMax);
         followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
-        float moveX = lookInput.x * Time.deltaTime;
+        float moveX = lookInput.x * aimSensitivity.y * Time.deltaTime;
         player.transform.Rotate(Vector3.up * moveX);
     }
 }

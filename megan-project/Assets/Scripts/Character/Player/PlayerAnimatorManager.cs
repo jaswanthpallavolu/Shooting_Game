@@ -22,8 +22,8 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         }
     }
 
-    public void EnableCharacterController()
+    public void EnableController()
     {
-        // player.characterController.excludeLayers = new LayerMask();
+        player.characterController.enabled = true;
     }
 }

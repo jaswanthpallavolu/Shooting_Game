@@ -9,5 +9,5 @@ public class Enums : MonoBehaviour
 public enum MovementType
 {
     Forward,
-    Straf
+    Strafe
 }
