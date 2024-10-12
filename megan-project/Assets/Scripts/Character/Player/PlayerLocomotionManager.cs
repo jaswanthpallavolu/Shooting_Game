@@ -11,6 +11,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float walkingSpeed = 2f;
     [SerializeField] float runningSpeed = 4f;
     [SerializeField] float sprintSpeed = 8f;
+    [SerializeField] float aimMovementSpeed = 2f;
+
     [SerializeField] Vector3 moveDirection;
     [SerializeField] Vector3 prevMoveDirection;
     float turnSmoothVelocity;
@@ -133,6 +135,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private float GetMovementSpeed(float moveAmount)
     {
+        if (player.isAiming)
+        {
+            return aimMovementSpeed;
+        }
+
         if (player.isSprinting)
         {
             return sprintSpeed;

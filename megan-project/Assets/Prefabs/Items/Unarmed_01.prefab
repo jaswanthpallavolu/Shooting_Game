@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1089423438801749241}
-  - component: {fileID: 3084038581308946425}
+  - component: {fileID: 5112105948256218229}
   m_Layer: 0
   m_Name: Unarmed_01
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 5877359604645093676}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3084038581308946425
+--- !u!114 &5112105948256218229
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3363426158232894737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18d304ff82f434968bdfe8c19d7e7ee1, type: 3}
+  m_Script: {fileID: 11500000, guid: 3543c15c0f21444079a8be002e5e20e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3744979649125705405

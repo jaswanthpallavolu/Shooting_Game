@@ -7,7 +7,7 @@ public class WorldItemDatabase : MonoBehaviour
 {
     public static WorldItemDatabase instance;
     [SerializeField] MeleeWeaponItem[] meleeWeapons;
-    [SerializeField] RangeWeaponItem[] rangeWeapons;
+    [SerializeField] FirearmWeaponItem[] firearmWeapons;
     public MeleeWeaponItem unarmedWeapon;
     private List<WeaponItem> weaponItems = new List<WeaponItem>();
 
@@ -22,11 +22,18 @@ public class WorldItemDatabase : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // foreach (var weapons in meleeWeapons.Union(meleeWeapons).ToArray())
+        // {
+        //     foreach (var weapon in weapons)
+        //     {
+        //         weaponItems.Add(weapon);
+        //     }
+        // }
         foreach (var weapon in meleeWeapons)
         {
             weaponItems.Add(weapon);
         }
-        foreach (var weapon in rangeWeapons)
+        foreach (var weapon in firearmWeapons)
         {
             weaponItems.Add(weapon);
         }

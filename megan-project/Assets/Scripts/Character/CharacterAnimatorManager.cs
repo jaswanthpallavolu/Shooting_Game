@@ -23,14 +23,23 @@ public class CharacterAnimatorManager : MonoBehaviour
 
     }
 
-    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, bool isSprinting)
+    public void UpdateAnimatorMovementParameters(float horizontalValue, float verticalValue, float moveAmount)
     {
         float horizontalAmount = horizontalValue;
         float verticalAmount = verticalValue;
-
-        if (isSprinting)
+        if (moveAmount <= 0)
+        {
+            horizontalAmount = 0;
+            verticalAmount = 0;
+        }
+        else if (characterManager.isSprinting)
         {
             verticalAmount = 2f;
+        }
+        else if (characterManager.isAiming)
+        {
+            horizontalAmount = Mathf.Clamp(horizontalAmount, -.5f, .5f);
+            verticalAmount = Mathf.Clamp(verticalAmount, -.5f, .5f);
         }
 
         characterManager.animator.SetFloat(horizontal, horizontalAmount, movementAnimationDamp, Time.deltaTime);

@@ -5,6 +5,10 @@ using UnityEngine;
 public class WeaponItem : Item
 {
     // ANIMATOR CONTROLLER OVERRIDE
+    public string equipAnimation;
+    public string unEquipAnimation;
+    public WeaponAnimState weaponAnimState;
+
     [Header("Weapon Model")]
     public GameObject weaponModel;
 

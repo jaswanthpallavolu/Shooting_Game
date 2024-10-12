@@ -18,6 +18,7 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Aiming")]
     public bool aimInput = false;
     public Vector2 lookInput;
+    public bool fireInput = false;
 
     [Header("Actions")]
     public bool jumpInput = false;
@@ -49,6 +50,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleSprintInput();
         HandleEquipWeaponInput();
         HandleUnEquipWeaponInput();
+        HandleFireInput();
     }
 
     private void OnEnable()
@@ -64,6 +66,7 @@ public class PlayerInputManager : MonoBehaviour
 
         playerControls.PlayerAim.Aim.performed += i => aimInput = true;
         playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
+        playerControls.PlayerAim.Fire.performed += i => fireInput = true;
 
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
         playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -97,16 +100,15 @@ public class PlayerInputManager : MonoBehaviour
             {
                 moveAmount = 0.5f;
             }
-            moveAmount = 0.5f;
         }
 
         if (player.movementType == MovementType.Forward)
         {
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.isSprinting);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, moveAmount);
         }
         else if (player.movementType == MovementType.Strafe)
         {
-            player.playerAnimatorManager.UpdateAnimatorMovementParameters(moveAmount > 0 ? horizontalInput : 0, moveAmount > 0 ? verticalInput : 0, player.isSprinting);
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput, moveAmount);
         }
 
 
@@ -139,9 +141,12 @@ public class PlayerInputManager : MonoBehaviour
         if (equipWeapon1)
         {
             equipWeapon1 = false;
-            // player.animator.SetBool("HG_Equip", true);
-            player.playerAnimatorManager.PlayTargetAnimation("HG_Equip", true, false, true, true);
-            player.animator.SetBool("handgun", true);
+            player.playerEquipmentManager.SwitchRightHandWeapon(1);
+        }
+        else if (equipWeapon2)
+        {
+            equipWeapon2 = false;
+            player.playerEquipmentManager.SwitchRightHandWeapon(2);
         }
     }
 
@@ -150,9 +155,20 @@ public class PlayerInputManager : MonoBehaviour
         if (unEquip)
         {
             unEquip = false;
-            player.animator.SetBool("unEquip", true);
-            player.animator.SetBool("handgun", false);
-            // player.playerAnimatorManager.PlayTargetAnimation("HG_Equip",true);
+            player.playerEquipmentManager.SwitchRightHandWeapon(0);
+        }
+    }
+
+    private void HandleFireInput()
+    {
+        if (fireInput && player.isAiming)
+        {
+            fireInput = false;
+            player.animator.SetBool("fire", true);
+        }
+        else
+        {
+            player.animator.SetBool("fire", false);
         }
     }
 }

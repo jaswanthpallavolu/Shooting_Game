@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,6 +42,63 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     protected override void Start()
     {
         base.Start();
-        // LoadWeaponsOnBothHands();
+        LoadWeaponsOnBothHands();
+    }
+
+    public void LoadWeaponsOnBothHands()
+    {
+        LoadRightWeapon();
+        // LoadLeftWeapon();
+    }
+
+    public void LoadRightWeapon()
+    {
+        if (playerManager.playerInventoryManager.currentRightHandWeapon != null)
+        {
+            string equipAnimation = playerManager.playerInventoryManager.currentRightHandWeapon.equipAnimation;
+            WeaponAnimState weaponAnimState = playerManager.playerInventoryManager.currentRightHandWeapon.weaponAnimState;
+            SelectWeaponAnimState(weaponAnimState);
+            if (!string.IsNullOrEmpty(equipAnimation))
+            {
+                // PLAY UNEQUIP ANIMATION
+                playerManager.playerAnimatorManager.PlayTargetAnimation(equipAnimation, false, true, true, true);
+            }
+            else
+            {
+                // RESET ALL WEAPON ANIMATION STATE
+                // playerManager.animator.SetBool("handgun", false);
+            }
+
+            rightHandWeaponModel = Instantiate(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
+            rightHandSlot.OnLoadWeapon(rightHandWeaponModel);
+            rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
+            rightWeaponManager.SetWeaponDamage(playerManager.playerInventoryManager.currentRightHandWeapon);
+        }
+    }
+
+    public void SwitchRightHandWeapon(int weaponId)
+    {
+        if (weaponId == playerManager.playerInventoryManager.rightHandWeaponIndex) return;
+        rightHandSlot.UnLoadWeapon();
+        playerManager.OnCurrentRighHandWeaponIdChange(
+            playerManager.playerInventoryManager.rightHandWeaponIndex,
+            weaponId
+            );
+        playerManager.playerInventoryManager.rightHandWeaponIndex = weaponId;
+    }
+
+    public void SelectWeaponAnimState(WeaponAnimState weaponAnimState)
+    {
+        foreach (var item in animStateList)
+        {
+            if (item.AnimState == weaponAnimState)
+            {
+                playerManager.animator.SetBool(item.AnimStateId, true);
+            }
+            else
+            {
+                playerManager.animator.SetBool(item.AnimStateId, false);
+            }
+        }
     }
 }

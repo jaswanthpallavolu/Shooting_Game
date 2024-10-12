@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8948d172603484cf58f4437110ef0b51, type: 3}
+  m_Name: PistolWeapon
+  m_EditorClassIdentifier: 
+  itemName: Wep Pistol
+  itemIcon: {fileID: 0}
+  itemDescription: 
+  itemId: 1
+  equipAnimation: HG_Equip
+  unEquipAnimation: HG_Unequip
+  weaponAnimState: 1
+  weaponModel: {fileID: 8063480878024516369, guid: 80bdc03d89d3a494dae06d0264002404, type: 3}
+  physicalDamage: 0
+  light_attack_01_modifier: 1
+  baseStaminaCost: 0
+  lightAttackStaminaCostMultiplier: 1
+  oh_RB_Action: {fileID: 0}
+  oh_RT_Action: {fileID: 0}
+  weaponType: 1

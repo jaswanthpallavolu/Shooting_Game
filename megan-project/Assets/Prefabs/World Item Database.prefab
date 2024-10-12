@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea770b7eecaf14ea896642d698ae94ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeWeapons: []
-  rangeWeapons:
-  - {fileID: 11400000, guid: 1b0d27a403c514f5facae5ef7742cd43, type: 2}
-  - {fileID: 11400000, guid: c15c2f378c4e5422b923120aa3c1dbff, type: 2}
-  unarmedWeapon: {fileID: 11400000, guid: 6372fbce85cd2435195e0498e5dccc90, type: 2}
+  meleeWeapons:
+  - {fileID: 11400000, guid: d1c9d4d40e4934fcda70f6b28be1c3db, type: 2}
+  firearmWeapons:
+  - {fileID: 11400000, guid: 09cc54cb8fbe348038962c57ac500673, type: 2}
+  - {fileID: 11400000, guid: 8dc305d300c6d4417b28e15f8d3d546a, type: 2}
+  unarmedWeapon: {fileID: 11400000, guid: d1c9d4d40e4934fcda70f6b28be1c3db, type: 2}

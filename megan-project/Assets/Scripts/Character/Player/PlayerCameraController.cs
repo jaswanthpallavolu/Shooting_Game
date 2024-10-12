@@ -64,6 +64,8 @@ public class PlayerCameraController : MonoBehaviour
             aimModeCamera.enabled = false;
             aimMode = false;
         }
+
+        player.animator.SetBool("aimMode", aimMode);
     }
 
     private void OnAimView()
