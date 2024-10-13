@@ -19,6 +19,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool aimInput = false;
     public Vector2 lookInput;
     public bool fireInput = false;
+    public bool shoulderSwapInput = false;
 
     [Header("Actions")]
     public bool jumpInput = false;
@@ -51,6 +52,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleEquipWeaponInput();
         HandleUnEquipWeaponInput();
         HandleFireInput();
+        HandleShoulderSwapInput();
     }
 
     private void OnEnable()
@@ -67,6 +69,7 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerAim.Aim.performed += i => aimInput = true;
         playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
         playerControls.PlayerAim.Fire.performed += i => fireInput = true;
+        playerControls.PlayerAim.ShoulderSwap.performed += i => shoulderSwapInput = true;
 
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
         playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
@@ -169,6 +172,15 @@ public class PlayerInputManager : MonoBehaviour
         else
         {
             player.animator.SetBool("fire", false);
+        }
+    }
+
+    void HandleShoulderSwapInput()
+    {
+        if (shoulderSwapInput)
+        {
+            shoulderSwapInput = false;
+            player.playerCameraController.SwapShoulder();
         }
     }
 }

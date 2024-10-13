@@ -77,4 +77,17 @@ public class PlayerCameraController : MonoBehaviour
         float moveX = lookInput.x * aimSensitivity.y * Time.deltaTime;
         player.transform.Rotate(Vector3.up * moveX);
     }
+
+    public void SwapShoulder()
+    {
+        var aimModeCameraBody = aimModeCamera.GetCinemachineComponent<Cinemachine3rdPersonFollow>();
+        if (aimMode)
+        {
+            aimModeCameraBody.CameraSide = aimModeCameraBody.CameraSide == 1 ? 0 : 1;
+        }
+        // else
+        // {
+        //     aimModeCameraBody.CameraSide = 1;
+        // }
+    }
 }

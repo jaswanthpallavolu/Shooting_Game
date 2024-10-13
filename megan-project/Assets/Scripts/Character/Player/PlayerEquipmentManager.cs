@@ -60,18 +60,16 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             SelectWeaponAnimState(weaponAnimState);
             if (!string.IsNullOrEmpty(equipAnimation))
             {
-                // PLAY UNEQUIP ANIMATION
+                // [TODO] PLAY UNEQUIP ANIMATION
                 playerManager.playerAnimatorManager.PlayTargetAnimation(equipAnimation, false, true, true, true);
-            }
-            else
-            {
-                // RESET ALL WEAPON ANIMATION STATE
-                // playerManager.animator.SetBool("handgun", false);
+                playerManager.playerAnimatorManager.HandleFirearmAnimRig();
+
             }
 
             rightHandWeaponModel = Instantiate(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
             rightHandSlot.OnLoadWeapon(rightHandWeaponModel);
             rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
+            rightWeaponManager.SetCharacterManager(playerManager);
             rightWeaponManager.SetWeaponDamage(playerManager.playerInventoryManager.currentRightHandWeapon);
         }
     }

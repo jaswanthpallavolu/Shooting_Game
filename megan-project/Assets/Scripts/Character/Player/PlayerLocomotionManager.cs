@@ -18,6 +18,9 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     float turnSmoothVelocity;
     float verticalInput, horizontalInput, moveAmount;
 
+    [Header("Debug")]
+    [SerializeField] float debugMoveSpeed;
+
     protected override void Awake()
     {
         base.Awake();
@@ -111,6 +114,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             transform.rotation = Quaternion.Euler(0f, angle, 0);
 
             float movementSpeed = GetMovementSpeed(moveAmount);
+            debugMoveSpeed = movementSpeed;
 
             player.characterController.Move(moveDirection * movementSpeed * Time.deltaTime);
         }
@@ -128,6 +132,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             transform.rotation = Quaternion.Euler(0, transformAngle, 0);
 
             float movementSpeed = GetMovementSpeed(moveAmount);
+            debugMoveSpeed = movementSpeed;
             Vector3 forwardDirection = Quaternion.Euler(0, angle, 0) * Vector3.forward;
             player.characterController.Move(forwardDirection * movementSpeed * Time.deltaTime);
         }

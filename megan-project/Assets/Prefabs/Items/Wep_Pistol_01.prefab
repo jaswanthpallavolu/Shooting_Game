@@ -332,6 +332,51 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8026914852989692309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2320556307763111897}
+  - component: {fileID: 4227532765647667787}
+  m_Layer: 0
+  m_Name: WeaponDamage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2320556307763111897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8026914852989692309}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7569961906967705111}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4227532765647667787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8026914852989692309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d012f860e024b499ca8b0a817bc469, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponRange: 300
 --- !u!1 &8063480878024516369
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,6 +414,7 @@ Transform:
   - {fileID: 4424055584197547383}
   - {fileID: 7585225129354747129}
   - {fileID: 6780428266779634896}
+  - {fileID: 2320556307763111897}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7661839687209345577
@@ -433,6 +479,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3543c15c0f21444079a8be002e5e20e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 1
+  damageCollider: {fileID: 0}
+  weaponDamage: {fileID: 0}
 --- !u!1 &8186036263010952670
 GameObject:
   m_ObjectHideFlags: 0

@@ -30,6 +30,11 @@ public class CharacterManager : MonoBehaviour
     public bool isOnLedge = false;
     public LedgeData ledgeData;
 
+    [Header("Combat")]
+    // public Transform aimOffsetTarget;
+    public float aimOffsetRange = 5f;
+    public bool isUsingRightHand = false;
+
     protected virtual void Awake()
     {
         // DontDestroyOnLoad(this);

@@ -11,6 +11,9 @@ public class CharacterAnimatorManager : MonoBehaviour
     [SerializeField] float parkourAnimationDamp = .2f;
     [SerializeField][Range(0, 1)] public float movementAnimationDamp = .2f;
 
+    public Transform currentRig;
+    public Transform currentRigAimTarget;
+
     protected virtual void Awake()
     {
         characterManager = GetComponentInParent<CharacterManager>();
@@ -32,7 +35,7 @@ public class CharacterAnimatorManager : MonoBehaviour
             horizontalAmount = 0;
             verticalAmount = 0;
         }
-        else if (characterManager.isSprinting)
+        else if (characterManager.isSprinting && !characterManager.isAiming)
         {
             verticalAmount = 2f;
         }
