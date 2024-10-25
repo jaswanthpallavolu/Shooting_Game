@@ -35,6 +35,7 @@ public class ParkourAction : ScriptableObject
         }
 
         float height = hitData.heightHit.point.y - player.position.y;
+        Debug.Log("obstacle height " + height);
         if (height < minHeight || height > maxHeight) return false;
 
         if (rotateToObstacle)
