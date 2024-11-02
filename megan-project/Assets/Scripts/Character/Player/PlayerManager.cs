@@ -17,6 +17,7 @@ public class PlayerManager : CharacterManager
 
         Cursor.lockState = CursorLockMode.Locked;
         Application.targetFrameRate = 60;
+        Time.timeScale = 0;
 
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         playerAnimatorManager = GetComponentInChildren<PlayerAnimatorManager>();
