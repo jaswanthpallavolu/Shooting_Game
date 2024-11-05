@@ -25,26 +25,36 @@ public class HUDSlotController : MonoBehaviour
         {
             itemsData.Add(new WeaponItemData { ID = weaponSlot.ToString() + i, Icon = weaponItems[i], Name = weaponSlot.ToString() + i });
         }
-
-
+        equippedSlotItemIndexes = new int[] { 0, 1 };
+        LoadWeaponSlots();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        equippedSlotItemIndexes = new int[] { 0, 1 };
+
         // FilterUnequippedItemIndexes();
 
         // Assign Button navigation to all weapon slots.
         AssignSlotButtonNavigation();
 
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+    }
+
+    void LoadWeaponSlots()
+    {
         if (weaponSlot == WeaponSlot.UP || weaponSlot == WeaponSlot.DOWN)
         {
             for (int i = 0; i < hudWeaponSlots.Count(); i++)
             {
+                hudWeaponSlots[i].slotID = i;
                 if (itemsData.Count() > i)
                 {
-                    hudWeaponSlots[i].slotID = i;
                     hudWeaponSlots[i].gameObject.SetActive(true);
                     hudWeaponSlots[i].LoadProjectileSlot(itemsData[i], hudWeaponManager.HUD_Weapon_Item);
                 }
@@ -58,6 +68,7 @@ public class HUDSlotController : MonoBehaviour
         {
             for (int i = 0; i < hudWeaponSlots.Count(); i++)
             {
+                hudWeaponSlots[i].slotID = i;
                 if (itemsData.Count() > i)
                 {
                     hudWeaponSlots[i].gameObject.SetActive(true);
@@ -70,12 +81,6 @@ public class HUDSlotController : MonoBehaviour
             }
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     void FilterUnequippedItemIndexes()
     {
         unequippedSlotItemIndexes = new int[weaponItems.Length];
@@ -110,7 +115,7 @@ public class HUDSlotController : MonoBehaviour
             if (oppositeSlotCurrIndex == 0) oppositeSlotCurrIndex += 1;
             else oppositeSlotCurrIndex -= 1;
             // oppositeSlot.scrollView.SetCurrentItemIndex(oppositeSlotCurrIndex);
-            // oppositeSlot.scrollView.currIndex = oppositeSlotCurrIndex;
+            oppositeSlot.scrollView.currIndex = oppositeSlotCurrIndex;
         }
     }
 

@@ -18,7 +18,6 @@ public class HUDWeaponManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("Awaken");
         hudSlotControllers = GetComponentsInChildren<HUDSlotController>();
 
         int slotIndex = 0;
@@ -32,6 +31,7 @@ public class HUDWeaponManager : MonoBehaviour
             slotIndex++;
         }
     }
+
     void Start()
     {
         // PreselectWeaponItem();
@@ -51,11 +51,11 @@ public class HUDWeaponManager : MonoBehaviour
             selectedWeaponItem = slot.currentSlotItem.weaponItemData;
             selectedWeaponItemID = slot.currentSlotItem.weaponItemData.ID;
         }
-        // prevent outside mouse clicks
-        else if (selectedSlot != null)
-        {
-            EventSystem.current.SetSelectedGameObject(selectedSlot.gameObject);
-        }
+        // // prevent outside mouse clicks
+        // else if (selectedSlot != null)
+        // {
+        //     EventSystem.current.SetSelectedGameObject(selectedSlot.gameObject);
+        // }
     }
 
     // Avoid outside mouse clicks 

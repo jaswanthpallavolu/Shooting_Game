@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,13 +8,14 @@ using UnityEngine.UI;
 public class HUDWeaponScrollView : MonoBehaviour
 {
     [SerializeField] HUDWeaponSlot hudWeaponSlot;
+    [SerializeField] ScrollViewNavigation scrollViewNavigation;
     [SerializeField] RectTransform viewport;
     [SerializeField] public RectTransform content;
 
     [SerializeField] public List<WeaponItemData> items;
     public Hud_Weapon_Item[] hud_Weapon_Items;
     public int currIndex = 0;
-    [SerializeField] int offsetTop = 0;
+
     [SerializeField] public float height;
     [SerializeField] float scrollSpeed = 4f;
 
@@ -37,15 +39,25 @@ public class HUDWeaponScrollView : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hud_Weapon_Items = content.GetComponentsInChildren<Hud_Weapon_Item>();
+        if (hud_Weapon_Items.Length == 0)
+        {
+            hud_Weapon_Items = content.GetComponentsInChildren<Hud_Weapon_Item>();
+        }
+
+        scrollViewNavigation.CurrIndex = currIndex;
+        scrollViewNavigation.TotalCount = hud_Weapon_Items.Length;
+
         if (hudWeaponSlot.enableWeaponSwap)
         {
+            viewport.GetComponent<RectMask2D>().enabled = false;
             Up();
             Down();
         }
         else
         {
-            ScrollToWeapon(currIndex);
+            viewport.GetComponent<RectMask2D>().enabled = true;
+            ScrollToWeapon(currIndex, false);
+
         }
     }
 
@@ -57,6 +69,7 @@ public class HUDWeaponScrollView : MonoBehaviour
             currIndex--;
             // StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.anchoredPosition.x, -height * currIndex), scrollSpeed, content));
             ScrollToWeapon(currIndex);
+            hudWeaponSlot.HandleWeaponSlotItem(currIndex);
             // hudWeaponSlot.SetCurrentSlotItem(hud_Weapon_Items[currIndex], currIndex);
         }
     }
@@ -68,25 +81,24 @@ public class HUDWeaponScrollView : MonoBehaviour
             if (currIndex == items.Count - 1) return;
             currIndex++;
             // content.anchoredPosition = new Vector2(content.anchoredPosition.x, -height * currIndex);
-            // StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.anchoredPosition.x, -height * currIndex), scrollSpeed, content));
             ScrollToWeapon(currIndex);
+            hudWeaponSlot.HandleWeaponSlotItem(currIndex);
+
         }
     }
 
-    public void ScrollToWeapon(int index)
+    public void ScrollToWeapon(int index, bool animate = true)
     {
-        // StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.anchoredPosition.x, height * index), scrollSpeed, content));
-        StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.offsetMax.x, height * index), scrollSpeed, content));
-        hudWeaponSlot.SetCurrentSlotItem(hud_Weapon_Items[index], index);
-
-    }
-
-    public void SetCurrentItemIndex(int index)
-    {
-        // PENDING
-        currIndex = index;
-        StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.offsetMax.x, height * index), scrollSpeed, content));
-        hudWeaponSlot.SetCurrentSlotItem(hud_Weapon_Items[index], -1);
+        if (animate)
+        {
+            StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.anchoredPosition.x, height * index), scrollSpeed, content));
+            // StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.offsetMax.x, height * index), scrollSpeed, content));
+        }
+        else
+        {
+            content.offsetMax = new Vector2(content.anchoredPosition.x, height * currIndex);
+        }
+        hudWeaponSlot.SetCurrentSlotItem(hud_Weapon_Items[index]);
     }
 
     IEnumerator MoveFromTo(Vector2 from, Vector2 to, float speed, RectTransform tra)

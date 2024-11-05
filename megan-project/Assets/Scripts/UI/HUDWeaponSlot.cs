@@ -19,8 +19,6 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
     public bool isSlotSelected = false;
 
 
-
-
     // Start is called before the first frame update
     void Awake()
     {
@@ -32,7 +30,7 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
     void Update()
     {
         isSlotSelected = hudWeaponSlot == slotController.hudWeaponManager.selectedSlot;
-        SetItemSelected(isSlotSelected);
+        SetSlotSelectedState(isSlotSelected);
 
         if (slotController.weaponSlot == WeaponSlot.LEFT || slotController.weaponSlot == WeaponSlot.RIGHT)
         {
@@ -73,12 +71,17 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
 
     }
 
-    public void SetCurrentSlotItem(Hud_Weapon_Item slotItem, int slotItemIndex = -1)
+    public void SetCurrentSlotItem(Hud_Weapon_Item slotItem)
     {
         currentSlotItem = slotItem;
-        // if (slotItemIndex != -1) slotController.HandleSlotItemIndexes(slotID, slotItemIndex);
     }
-    public void SetItemSelected(bool isSelected)
+
+    public void HandleWeaponSlotItem(int slotItemIndex)
+    {
+        slotController.HandleSlotItemIndexes(slotID, slotItemIndex);
+    }
+
+    public void SetSlotSelectedState(bool isSelected)
     {
         if (isSelected)
         {
@@ -95,16 +98,19 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
     public void OnMove(AxisEventData eventData)
     {
 
+        return;
         // throw new System.NotImplementedException();
     }
 
     public void OnSelect(BaseEventData eventData)
     {
+        // return;
         slotController.hudWeaponManager.SetCurrentWeaponItem(hudWeaponSlot);
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
+        return;
         // Debug.Log("Deselected " + currentSlotItem.weaponItemData.Name);
         slotController.hudWeaponManager.PreselectWeaponItem();
     }
