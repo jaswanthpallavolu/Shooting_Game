@@ -89,6 +89,7 @@ public class HUDWeaponScrollView : MonoBehaviour
 
     public void ScrollToWeapon(int index, bool animate = true)
     {
+        if (index >= hud_Weapon_Items.Length) return;
         if (animate)
         {
             StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.anchoredPosition.x, height * index), scrollSpeed, content));

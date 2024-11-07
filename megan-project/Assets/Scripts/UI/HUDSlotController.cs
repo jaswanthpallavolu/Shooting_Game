@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class HUDSlotController : MonoBehaviour
 {
     public HUDWeaponManager hudWeaponManager;
-    public WeaponSlot weaponSlot;
+    public SlotSection slotSection;
     public HUDWeaponSlot[] hudWeaponSlots;
     [SerializeField] Sprite[] weaponItems;
     List<WeaponItemData> itemsData;
@@ -23,7 +23,7 @@ public class HUDSlotController : MonoBehaviour
         itemsData = new List<WeaponItemData>();
         for (int i = 0; i < weaponItems.Length; i++)
         {
-            itemsData.Add(new WeaponItemData { ID = weaponSlot.ToString() + i, Icon = weaponItems[i], Name = weaponSlot.ToString() + i });
+            itemsData.Add(new WeaponItemData { ID = slotSection.ToString() + i, Icon = weaponItems[i], Name = slotSection.ToString() + i });
         }
         equippedSlotItemIndexes = new int[] { 0, 1 };
         LoadWeaponSlots();
@@ -36,7 +36,7 @@ public class HUDSlotController : MonoBehaviour
         // FilterUnequippedItemIndexes();
 
         // Assign Button navigation to all weapon slots.
-        AssignSlotButtonNavigation();
+        // AssignSlotButtonNavigation();
 
 
     }
@@ -48,11 +48,11 @@ public class HUDSlotController : MonoBehaviour
 
     void LoadWeaponSlots()
     {
-        if (weaponSlot == WeaponSlot.UP || weaponSlot == WeaponSlot.DOWN)
+        if (slotSection == SlotSection.UP || slotSection == SlotSection.DOWN)
         {
             for (int i = 0; i < hudWeaponSlots.Count(); i++)
             {
-                hudWeaponSlots[i].slotID = i;
+                hudWeaponSlots[i].slotIndex = i;
                 if (itemsData.Count() > i)
                 {
                     hudWeaponSlots[i].gameObject.SetActive(true);
@@ -64,11 +64,11 @@ public class HUDSlotController : MonoBehaviour
                 }
             }
         }
-        else if (weaponSlot == WeaponSlot.LEFT || weaponSlot == WeaponSlot.RIGHT)
+        else if (slotSection == SlotSection.LEFT || slotSection == SlotSection.RIGHT)
         {
             for (int i = 0; i < hudWeaponSlots.Count(); i++)
             {
-                hudWeaponSlots[i].slotID = i;
+                hudWeaponSlots[i].slotIndex = i;
                 if (itemsData.Count() > i)
                 {
                     hudWeaponSlots[i].gameObject.SetActive(true);
@@ -81,6 +81,7 @@ public class HUDSlotController : MonoBehaviour
             }
         }
     }
+
     void FilterUnequippedItemIndexes()
     {
         unequippedSlotItemIndexes = new int[weaponItems.Length];
@@ -105,9 +106,9 @@ public class HUDSlotController : MonoBehaviour
 
     }
 
-    public void HandleSlotItemIndexes(int slotID, int itemIndex)
+    public void HandleSlotItemIndexes(int slotIndex, int itemIndex)
     {
-        var oppositeSlot = hudWeaponSlots[0].slotID == slotID ? hudWeaponSlots[1] : hudWeaponSlots[0];
+        var oppositeSlot = hudWeaponSlots[0].slotIndex == slotIndex ? hudWeaponSlots[1] : hudWeaponSlots[0];
         int oppositeSlotCurrIndex = oppositeSlot.scrollView.currIndex;
 
         if (oppositeSlotCurrIndex == itemIndex)
@@ -126,9 +127,9 @@ public class HUDSlotController : MonoBehaviour
             var navigation = hudWeaponSlots[i].GetComponent<Button>().navigation;
             foreach (var navigateWeaponSlot in hudWeaponManager.navigateWeaponSlots)
             {
-                if (navigateWeaponSlot.WeaponSlot == WeaponSlot.UP)
+                if (navigateWeaponSlot.SlotSection == SlotSection.UP)
                 {
-                    if (weaponSlot == WeaponSlot.UP && i + 1 < hudWeaponSlots.Length)
+                    if (slotSection == SlotSection.UP && i + 1 < hudWeaponSlots.Length)
                     {
                         navigation.selectOnUp = hudWeaponSlots[i + 1].GetComponent<Button>();
                     }
@@ -137,9 +138,9 @@ public class HUDSlotController : MonoBehaviour
                         navigation.selectOnUp = navigateWeaponSlot.FirstHUDWeaponSlot.GetComponent<Button>();
                     }
                 }
-                else if (navigateWeaponSlot.WeaponSlot == WeaponSlot.DOWN)
+                else if (navigateWeaponSlot.SlotSection == SlotSection.DOWN)
                 {
-                    if (weaponSlot == WeaponSlot.DOWN && i + 1 < hudWeaponSlots.Length)
+                    if (slotSection == SlotSection.DOWN && i + 1 < hudWeaponSlots.Length)
                     {
                         navigation.selectOnDown = hudWeaponSlots[i + 1].GetComponent<Button>();
                     }
@@ -148,9 +149,9 @@ public class HUDSlotController : MonoBehaviour
                         navigation.selectOnDown = navigateWeaponSlot.FirstHUDWeaponSlot.GetComponent<Button>();
                     }
                 }
-                else if (navigateWeaponSlot.WeaponSlot == WeaponSlot.LEFT)
+                else if (navigateWeaponSlot.SlotSection == SlotSection.LEFT)
                 {
-                    if (weaponSlot == WeaponSlot.LEFT && i + 1 < hudWeaponSlots.Length)
+                    if (slotSection == SlotSection.LEFT && i + 1 < hudWeaponSlots.Length)
                     {
                         navigation.selectOnLeft = hudWeaponSlots[i + 1].GetComponent<Button>();
                     }
@@ -159,9 +160,9 @@ public class HUDSlotController : MonoBehaviour
                         navigation.selectOnLeft = navigateWeaponSlot.FirstHUDWeaponSlot.GetComponent<Button>();
                     }
                 }
-                else if (navigateWeaponSlot.WeaponSlot == WeaponSlot.RIGHT)
+                else if (navigateWeaponSlot.SlotSection == SlotSection.RIGHT)
                 {
-                    if (weaponSlot == WeaponSlot.RIGHT && i + 1 < hudWeaponSlots.Length)
+                    if (slotSection == SlotSection.RIGHT && i + 1 < hudWeaponSlots.Length)
                     {
                         navigation.selectOnRight = hudWeaponSlots[i + 1].GetComponent<Button>();
                     }
@@ -173,6 +174,23 @@ public class HUDSlotController : MonoBehaviour
             }
             hudWeaponSlots[i].GetComponent<Button>().navigation = navigation;
         }
+    }
+
+    // NAVIGATION
+    public void Navigate()
+    {
+        int totalSlots = hudWeaponSlots.Length;
+        if (totalSlots == 0) return;
+        int nextSlotIndex = getNextSlotIndex(hudWeaponManager.selectedSlotIndex, totalSlots, slotSection);
+        hudWeaponSlots[nextSlotIndex].SelectWeaponSlot();
+    }
+
+    int getNextSlotIndex(int slotIndex, int totalSlots, SlotSection slotSection)
+    {
+        if (hudWeaponManager.selectedSlotSection == slotSection) slotIndex++;
+        else slotIndex = 0;
+        if (slotIndex == totalSlots) slotIndex = 0;
+        return slotIndex;
     }
 }
 

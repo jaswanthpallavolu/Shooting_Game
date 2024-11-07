@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDeselectHandler
+// , IMoveHandler, ISelectHandler, IDeselectHandler
+public class HUDWeaponSlot : MonoBehaviour
 {
-    public int slotID;
-    public HUDWeaponSlot hudWeaponSlot;
+    public int slotIndex;
+    HUDWeaponSlot hudWeaponSlot;
     public HUDSlotController slotController;
     public Hud_Weapon_Item currentSlotItem;
     [SerializeField] private GameObject selectedRect;
@@ -32,7 +33,7 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
         isSlotSelected = hudWeaponSlot == slotController.hudWeaponManager.selectedSlot;
         SetSlotSelectedState(isSlotSelected);
 
-        if (slotController.weaponSlot == WeaponSlot.LEFT || slotController.weaponSlot == WeaponSlot.RIGHT)
+        if (slotController.slotSection == SlotSection.LEFT || slotController.slotSection == SlotSection.RIGHT)
         {
             if (Input.GetKeyDown(KeyCode.V) && isSlotSelected)
             {
@@ -78,7 +79,7 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
 
     public void HandleWeaponSlotItem(int slotItemIndex)
     {
-        slotController.HandleSlotItemIndexes(slotID, slotItemIndex);
+        slotController.HandleSlotItemIndexes(slotIndex, slotItemIndex);
     }
 
     public void SetSlotSelectedState(bool isSelected)
@@ -93,25 +94,29 @@ public class HUDWeaponSlot : MonoBehaviour, IMoveHandler, ISelectHandler, IDesel
         }
     }
 
-
-    // EVENTS
-    public void OnMove(AxisEventData eventData)
+    public void SelectWeaponSlot()
     {
-
-        return;
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        // return;
         slotController.hudWeaponManager.SetCurrentWeaponItem(hudWeaponSlot);
     }
 
-    public void OnDeselect(BaseEventData eventData)
-    {
-        return;
-        // Debug.Log("Deselected " + currentSlotItem.weaponItemData.Name);
-        slotController.hudWeaponManager.PreselectWeaponItem();
-    }
+    // // EVENTS
+    // public void OnMove(AxisEventData eventData)
+    // {
+
+    //     return;
+    //     // throw new System.NotImplementedException();
+    // }
+
+    // public void OnSelect(BaseEventData eventData)
+    // {
+    //     // return;
+    //     slotController.hudWeaponManager.SetCurrentWeaponItem(hudWeaponSlot);
+    // }
+
+    // public void OnDeselect(BaseEventData eventData)
+    // {
+    //     return;
+    //     // Debug.Log("Deselected " + currentSlotItem.weaponItemData.Name);
+    //     // slotController.hudWeaponManager.PreselectWeaponItem();
+    // }
 }
