@@ -26,6 +26,7 @@ public class HUDWeaponManager : MonoBehaviour
     [SerializeField] int quickSwapIndex = -1;
     int leftSlotsTotal;
     int rightSlotsTotal;
+    public bool Swapping { set; get; }
 
     [Header("skip")]
     [SerializeField] HUDSlotController[] hudSlotControllers;
@@ -61,29 +62,33 @@ public class HUDWeaponManager : MonoBehaviour
     {
         UpdateQuickSwapIndex();
 
+        HandleNavigationInput();
+    }
+
+    void HandleNavigationInput()
+    {
         if (Input.GetKeyDown(KeyCode.Q))
         {
             PerformQuickSwap();
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !Swapping)
         {
             upSlotController.Navigate();
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !Swapping)
         {
             downSlotController.Navigate();
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             leftSlotController.Navigate();
         }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             rightSlotController.Navigate();
         }
-
-
     }
 
     void UpdateQuickSwapIndex()
@@ -134,7 +139,7 @@ public class HUDWeaponManager : MonoBehaviour
                 selectedWeaponItem = slot.currentSlotItem.weaponItemData;
                 selectedWeaponItemID = slot.currentSlotItem.weaponItemData.ID;
             }
-
+            Swapping = false;
         }
         // // prevent outside mouse clicks
         // else if (selectedSlot != null)

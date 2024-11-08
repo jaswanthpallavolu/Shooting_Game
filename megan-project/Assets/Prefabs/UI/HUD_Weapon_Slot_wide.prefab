@@ -495,8 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66331b3747f0e4a5db6ee928431511b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotID: 0
-  hudWeaponSlot: {fileID: 0}
+  slotIndex: 0
   slotController: {fileID: 0}
   currentSlotItem: {fileID: 0}
   selectedRect: {fileID: 2545378649891456587}
@@ -887,7 +886,10 @@ MonoBehaviour:
   hud_Weapon_Items: []
   currIndex: 0
   height: 0
-  scrollSpeed: 4
+  scrollSpeed: 5
+  startTimeout: 0
+  waitTime: 0.4
+  currTime: 0
 --- !u!1 &8425450800921309321
 GameObject:
   m_ObjectHideFlags: 0

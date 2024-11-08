@@ -17,7 +17,10 @@ public class HUDWeaponScrollView : MonoBehaviour
     public int currIndex = 0;
 
     [SerializeField] public float height;
-    [SerializeField] float scrollSpeed = 4f;
+    [SerializeField] float scrollSpeed = 6f;
+    [SerializeField] bool startTimeout = false;
+    [SerializeField] float waitTime = .4f;
+    [SerializeField] float currTime = 0;
 
     void Awake()
     {
@@ -47,8 +50,20 @@ public class HUDWeaponScrollView : MonoBehaviour
         scrollViewNavigation.CurrIndex = currIndex;
         scrollViewNavigation.TotalCount = hud_Weapon_Items.Length;
 
-        if (hudWeaponSlot.enableWeaponSwap)
+        if (currTime >= waitTime)
         {
+            hudWeaponSlot.slotController.hudWeaponManager.Swapping = false;
+            startTimeout = false;
+            currTime = 0;
+        }
+
+
+        if (hudWeaponSlot.isSlotSelected && hudWeaponSlot.slotController.hudWeaponManager.Swapping)
+        {
+            if (startTimeout)
+            {
+                currTime += Time.deltaTime;
+            }
             viewport.GetComponent<RectMask2D>().enabled = false;
             Up();
             Down();
@@ -57,14 +72,15 @@ public class HUDWeaponScrollView : MonoBehaviour
         {
             viewport.GetComponent<RectMask2D>().enabled = true;
             ScrollToWeapon(currIndex, false);
-
         }
     }
 
     void Up()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            startTimeout = true;
+            currTime = 0;
             if (currIndex == 0) return;
             currIndex--;
             // StartCoroutine(MoveFromTo(content.offsetMax, new Vector2(content.anchoredPosition.x, -height * currIndex), scrollSpeed, content));
@@ -76,13 +92,16 @@ public class HUDWeaponScrollView : MonoBehaviour
 
     void Down()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            startTimeout = true;
+            currTime = 0;
             if (currIndex == items.Count - 1) return;
             currIndex++;
             // content.anchoredPosition = new Vector2(content.anchoredPosition.x, -height * currIndex);
             ScrollToWeapon(currIndex);
             hudWeaponSlot.HandleWeaponSlotItem(currIndex);
+            // hudWeaponSlot.slotController.hudWeaponManager.Swapping = false;
 
         }
     }
