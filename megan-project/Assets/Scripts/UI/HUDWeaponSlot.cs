@@ -35,11 +35,11 @@ public class HUDWeaponSlot : MonoBehaviour
 
         if (slotController.slotSection == SlotSection.LEFT || slotController.slotSection == SlotSection.RIGHT)
         {
-            if (Input.GetKeyDown(KeyCode.V) && isSlotSelected && scrollView.hud_Weapon_Items.Length > 1)
-            {
-                slotController.hudWeaponManager.Swapping = true;
-                GetComponent<Button>().enabled = false;
-            }
+            // if (isSlotSelected && scrollView.hud_Weapon_Items.Length > 1)
+            // {
+            //     // slotController.hudWeaponManager.Swapping = true;
+            //     GetComponent<Button>().enabled = false;
+            // }
 
             if (!isSlotSelected)
             {

@@ -1,48 +1,73 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIButtonController : MonoBehaviour
 {
-    [SerializeField] UIButton button;
-    [SerializeField] RectTransform textMesh;
-    [SerializeField] string text;
 
     [SerializeField] float holdTime = 5f;
     [SerializeField] float currTime = 0f;
-
     [SerializeField] float fillAmount;
+    [SerializeField] float fillSpeed = 5f;
 
-    // Start is called before the first frame update
+    ButtonPromptData buttonData;
+
+    [Header("Button")]
+    [SerializeField] RectTransform textMesh;
+    [SerializeField] RectTransform fillRect;
+    [SerializeField] RectTransform keyRect;
+
+    public event EventHandler<UIButtonController> OnHoldComplete;
+
     void Start()
     {
-        textMesh.GetComponent<TextMeshProUGUI>().text = text;
+        ResetState();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // textMesh.GetComponent<TextMeshProUGUI>().text = text;
+        PressAndHold();
+    }
+
+    void PressAndHold()
+    {
         if (Input.GetKey(KeyCode.V))
         {
             currTime += Time.deltaTime;
             fillAmount = currTime / holdTime;
-            button.FillAmount(fillAmount);
+            FillAmount(fillAmount);
 
             if (currTime >= holdTime)
             {
-                Debug.Log("perform action");
+                if (OnHoldComplete != null && fillRect.GetComponent<Image>().fillAmount == 1)
+                    OnHoldComplete(this, GetComponent<UIButtonController>());
             }
         }
         else
         {
             fillAmount = 0;
             currTime = 0;
-            button.FillAmount(fillAmount);
+            FillAmount(fillAmount);
         }
+    }
 
+    public void SetButtonData(ButtonPromptData data)
+    {
+        buttonData = data;
+        textMesh.GetComponent<TextMeshProUGUI>().text = buttonData.Text;
+        keyRect.GetComponent<Image>().sprite = buttonData.KeySprite;
+    }
 
+    private void FillAmount(float fillAmount)
+    {
+        fillRect.GetComponent<Image>().fillAmount = Mathf.Lerp(fillRect.GetComponent<Image>().fillAmount, fillAmount, Time.deltaTime * fillSpeed);
+    }
 
+    public void ResetState()
+    {
+        fillRect.GetComponent<Image>().fillAmount = 0;
     }
 }

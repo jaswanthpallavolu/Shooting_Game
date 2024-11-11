@@ -689,9 +689,9 @@ RectTransform:
   - {fileID: 5440420274261392520}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 10, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: -20}
   m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &4610788033587319891
@@ -754,12 +754,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abc1ff31d45274706b46065ccc618c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 7504594886882095591}
-  textMesh: {fileID: 5440420274261392520}
-  text: swap
-  holdTime: 0.5
+  holdTime: 0.25
   currTime: 0
   fillAmount: 0
+  fillSpeed: 10
+  textMesh: {fileID: 5440420274261392520}
+  fillRect: {fileID: 4389679370326955844}
+  keyRect: {fileID: 6438628343821029744}
 --- !u!1 &3859439962011658529
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,7 +809,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7487089274836681021}
-  - component: {fileID: 7504594886882095591}
   m_Layer: 0
   m_Name: Button_Keyboard
   m_TagString: Untagged
@@ -839,19 +839,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7504594886882095591
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5096446648910506607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 449cfb04159cf4e90bd0d669240a9655, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fillRect: {fileID: 4389679370326955844}
 --- !u!1 &5703131580911352776
 GameObject:
   m_ObjectHideFlags: 0

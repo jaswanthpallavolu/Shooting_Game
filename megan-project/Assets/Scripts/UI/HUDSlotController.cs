@@ -12,6 +12,10 @@ public class HUDSlotController : MonoBehaviour
     [SerializeField] Sprite[] weaponItems;
     List<WeaponItemData> itemsData;
 
+    [Header("Slot Options")]
+    [SerializeField] RectTransform leftSlotOptionsRect;
+    [SerializeField] RectTransform rightSlotOptionsRect;
+
     [Header("FireArm Slots")]
     public int[] equippedSlotItemIndexes;
     public int[] unequippedSlotItemIndexes;
@@ -27,6 +31,20 @@ public class HUDSlotController : MonoBehaviour
         }
         equippedSlotItemIndexes = new int[] { 0, 1 };
         LoadWeaponSlots();
+
+
+        //
+        if (slotSection == SlotSection.LEFT)
+        {
+            SlotOptions leftSlotOption = leftSlotOptionsRect.GetComponentInChildren<SlotOptions>();
+            leftSlotOption.swapButton.OnHoldComplete += EnableSwapping;
+        }
+        if (slotSection == SlotSection.RIGHT)
+        {
+            SlotOptions rightSlotOption = rightSlotOptionsRect.GetComponentInChildren<SlotOptions>();
+            rightSlotOption.swapButton.OnHoldComplete += EnableSwapping;
+        }
+
     }
 
     // Start is called before the first frame update
@@ -44,6 +62,43 @@ public class HUDSlotController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleSlotOptions();
+    }
+
+    void EnableSwapping(object sender, UIButtonController button)
+    {
+        button.ResetState();
+        hudWeaponManager.Swapping = true;
+    }
+
+    void HandleSlotOptions()
+    {
+        if (hudWeaponManager.Swapping)
+        {
+            if (slotSection == SlotSection.LEFT) leftSlotOptionsRect.gameObject.SetActive(false);
+            else if (slotSection == SlotSection.RIGHT) rightSlotOptionsRect.gameObject.SetActive(false);
+            return;
+        }
+
+        if (slotSection == SlotSection.LEFT)
+        {
+            if (hudWeaponManager.selectedSlotSection == SlotSection.LEFT) leftSlotOptionsRect.gameObject.SetActive(true);
+            else leftSlotOptionsRect.gameObject.SetActive(false);
+
+            bool reverse = false;
+            if (hudWeaponManager.selectedSlotIndex == 0) reverse = true;
+            leftSlotOptionsRect.GetComponent<HorizontalLayoutGroup>().reverseArrangement = reverse;
+        }
+
+        if (slotSection == SlotSection.RIGHT)
+        {
+            if (hudWeaponManager.selectedSlotSection == SlotSection.RIGHT) rightSlotOptionsRect.gameObject.SetActive(true);
+            else rightSlotOptionsRect.gameObject.SetActive(false);
+
+            bool reverse = false;
+            if (hudWeaponManager.selectedSlotIndex != 0) reverse = true;
+            rightSlotOptionsRect.GetComponent<HorizontalLayoutGroup>().reverseArrangement = reverse;
+        }
     }
 
     void LoadWeaponSlots()
