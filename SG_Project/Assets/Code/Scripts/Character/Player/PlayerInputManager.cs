@@ -97,13 +97,13 @@ public class PlayerInputManager : MonoBehaviour
         {
             moveAmount = 0;
         }
-        else if (player.movementType == MovementType.Strafe)
-        {
-            if (horizontalInput != 0 || verticalInput < 0)
-            {
-                moveAmount = 0.5f;
-            }
-        }
+        // else if (player.movementType == MovementType.Strafe)
+        // {
+        //     if (horizontalInput != 0 || verticalInput < 0)
+        //     {
+        //         moveAmount = 0.5f;
+        //     }
+        // }
 
         if (player.movementType == MovementType.Forward)
         {
