@@ -62,9 +62,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             {
                 // [TODO] PLAY UNEQUIP ANIMATION
                 playerManager.playerAnimatorManager.PlayTargetAnimation(equipAnimation, false, true, true, true);
-                playerManager.playerAnimatorManager.HandleFirearmAnimRig();
-
             }
+            playerManager.playerAnimatorManager.HandleFirearmAnimRig();
 
             rightHandWeaponModel = Instantiate(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
             rightHandSlot.OnLoadWeapon(rightHandWeaponModel);

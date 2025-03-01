@@ -55,6 +55,12 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
 
     void SelectWeaponAnimRig(WeaponAnimState animState)
     {
+        if (animState == WeaponAnimState.FH)
+        {
+            currentRig = null;
+            currentRigAimTarget = null;
+            return;
+        }
         foreach (var animRig in animRigList)
         {
             animRig.Rig.GetComponent<Rig>().weight = 0;
