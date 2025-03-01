@@ -51,6 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "SG_Project.sln",
+    "dotnet.defaultSolution": "Shooting_Game.sln",
     "editor.codeLens": false
 }
