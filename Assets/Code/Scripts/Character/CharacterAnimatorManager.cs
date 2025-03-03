@@ -39,7 +39,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         {
             verticalAmount = 2f;
         }
-        else if (characterManager.isAiming)
+        else if (characterManager.isAiming || characterManager.isCrouching)
         {
             horizontalAmount = Mathf.Clamp(horizontalAmount, -.5f, .5f);
             verticalAmount = Mathf.Clamp(verticalAmount, -.5f, .5f);

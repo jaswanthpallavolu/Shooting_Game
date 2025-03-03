@@ -24,6 +24,7 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Actions")]
     public bool jumpInput = false;
     public bool sprintInput = false;
+    public bool crouchInput = false;
 
     [Header("Weapon")]
     public bool equipWeapon1 = false;
@@ -48,6 +49,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleMovementInput();
         HandleAimInput();
         HandleJumpInput();
+        HandleCrouchInput();
         HandleSprintInput();
         HandleEquipWeaponInput();
         HandleUnEquipWeaponInput();
@@ -72,6 +74,7 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerAim.ShoulderSwap.performed += i => shoulderSwapInput = true;
 
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+        playerControls.PlayerActions.Crouch.performed += i => crouchInput = true;
         playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
         playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
 
@@ -131,6 +134,17 @@ public class PlayerInputManager : MonoBehaviour
             jumpInput = false;
             if (player.isPerformingAction) return;
             player.parkourController.HandleActions();
+        }
+    }
+
+    private void HandleCrouchInput()
+    {
+        if (crouchInput)
+        {
+            crouchInput = false;
+            player.isCrouching = !player.isCrouching;
+            Debug.Log(player.isCrouching);
+            player.animator.SetBool("crouch", player.isCrouching);
         }
     }
 
