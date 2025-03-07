@@ -9,7 +9,7 @@ public class PlayerCameraController : MonoBehaviour
     PlayerManager player;
     [SerializeField] CinemachineVirtualCamera mainCamera;
     [SerializeField] public CinemachineVirtualCamera aimModeCamera;
-    [SerializeField] Transform followTarget;
+    [SerializeField] public Transform followTarget;
     [SerializeField] float xLimitMin = -20;
     [SerializeField] float xLimitMax = 50;
     [SerializeField] Vector2 defaultSpeed = new Vector2(200, 300);

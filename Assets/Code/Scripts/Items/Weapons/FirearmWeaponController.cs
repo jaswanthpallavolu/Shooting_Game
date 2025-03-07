@@ -7,7 +7,8 @@ namespace SG_Project
 {
     public class FirearmWeaponController : MonoBehaviour
     {
-        public Weapon Weapon;
+        [SerializeField] Weapon Weapon;
+        [SerializeField] WeaponRecoil weaponRecoil;
 
         [Tooltip("Time in seconds between shots")]
         public float ShootDelay = 0.25f;
@@ -84,11 +85,11 @@ namespace SG_Project
         {
             if (!Weapon.BulletSpawnPoint)
             {
-                Weapon weapon = GetComponent<Weapon>();
-                if (weapon)
-                {
-                    weapon.BulletSpawnPoint = Camera.main.transform;
-                }
+                Weapon.BulletSpawnPoint = Camera.main.transform;
+            }
+            if (!weaponRecoil.followTarget)
+            {
+                weaponRecoil.followTarget = PlayerInputManager.instance.player.playerCameraController.followTarget;
             }
             // bool f = PlayerInputManager.instance.fireInput;
             // bool aim = PlayerInputManager.instance.aimInput;
@@ -154,6 +155,7 @@ namespace SG_Project
             for (var i = bullets; i > 0; i--)
                 Weapon.Shoot(SpreadController.CalculateShootDirection(Weapon), CurrentZeroing().Angle);
             cooldownTimer = cooldown;
+            weaponRecoil.FireRecoil();
             SpreadController.BulletFired();
             MagazineController.BulletFired();
         }
