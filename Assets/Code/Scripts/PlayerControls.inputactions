@@ -255,6 +255,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "SingleFire",
+                    "type": "Button",
+                    "id": "2bc9c67d-43f7-4aae-894c-cfd6abd8c9ef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ContinousFire",
+                    "type": "Button",
+                    "id": "1f02f083-6dc6-407d-9978-2ded3f967e42",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ShoulderSwap",
                     "type": "Button",
                     "id": "cc7329c9-292b-4af6-a698-8893f02c4129",
@@ -315,6 +333,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Scope",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1673b20-2f15-4026-8137-aaaa5e4f7a8b",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SingleFire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10a51d18-a8fb-47da-9eab-c8ca64ca2bf9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "Hold(duration=0.15)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ContinousFire",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

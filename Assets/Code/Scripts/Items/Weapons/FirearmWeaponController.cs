@@ -13,17 +13,6 @@ namespace SG_Project
         [Tooltip("Time in seconds between shots")]
         public float ShootDelay = 0.25f;
 
-        public enum WeaponMode
-        {
-            [Tooltip("A single bullet is fired each shot. The trigger has to be released after each shot.")]
-            SingleShot,
-            [Tooltip("Each shot fires multiple bullet fragments. The trigger has to be released after each shot.")]
-            Shotgun,
-            [Tooltip("A single bullet is fired each shot. Holding the trigger will continuously fire bullets.")]
-            FullAuto,
-            [Tooltip("A single bullet is fired each shot. Holding the trigger will fire x bullets without having to release the trigger.")]
-            Burst
-        }
         public WeaponMode Mode = WeaponMode.SingleShot;
 
         [Header("Burst- / Shotgun- Mode")]
@@ -60,12 +49,12 @@ namespace SG_Project
         public bool triggerReleaseRequired = false;
         public float cooldownTimer = 0;
 
-        public void SetTrigger(bool held)
-        {
-            triggerHeld = held;
-            Debug.Log("CheckShoot " + held);
-            // CheckShoot();
-        }
+        // public void SetTrigger(bool held)
+        // {
+        //     triggerHeld = held;
+        //     Debug.Log("CheckShoot " + held);
+        //     // CheckShoot(triggerHeld);
+        // }
 
         private void Start()
         {
@@ -76,25 +65,38 @@ namespace SG_Project
             //     MagazineController = gameObject.AddComponent<MagazineController>();
         }
 
-        // private void Update()
-        // {
-        // CheckShoot();
-        // cooldownTimer -= Time.deltaTime;
-        // }
+        private void Update()
+        {
+            // CheckShoot();
+            // Debug.Log(cooldownTimer);
+            // CheckShoot(triggerHeld);
+            cooldownTimer -= Time.deltaTime;
+
+        }
+
         public void UpdateLoop(bool th)
         {
-            if (!Weapon.BulletSpawnPoint)
-            {
-                Weapon.BulletSpawnPoint = Camera.main.transform;
-            }
-            if (!weaponRecoil.followTarget)
-            {
-                weaponRecoil.followTarget = PlayerInputManager.instance.player.playerCameraController.followTarget;
-            }
+            // if (!Weapon.BulletSpawnPoint)
+            // {
+            //     Weapon.BulletSpawnPoint = Camera.main.transform;
+            // }
+            // if (!weaponRecoil.followTarget)
+            // {
+            //     weaponRecoil.followTarget = PlayerInputManager.instance.player.playerCameraController.followTarget;
+            // }
             // bool f = PlayerInputManager.instance.fireInput;
             // bool aim = PlayerInputManager.instance.aimInput;
-            CheckShoot(th);
-            cooldownTimer -= Time.deltaTime;
+            // CheckShoot(th);
+            // cooldownTimer -= Time.deltaTime;
+
+        }
+
+        public void WeaponShoot()
+        {
+            if (cooldownTimer <= 0)
+            {
+                Shoot(1, ShootDelay);
+            }
         }
 
         private void CheckShoot(bool th)
@@ -102,7 +104,6 @@ namespace SG_Project
             if (!th && triggerReleaseRequired)
             {
                 triggerReleaseRequired = false;
-                // Debug.Log("triggerReleaseRequired" + triggerReleaseRequired);
             }
 
             // && MagazineController.IsBulletAvailable()

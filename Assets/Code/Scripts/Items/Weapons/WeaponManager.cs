@@ -22,21 +22,14 @@ public class WeaponManager : MonoBehaviour
         }
     }
 
-    public void Initiliaze()
+    public void TriggerAction(bool fullAuto)
     {
         if (weaponType == WeaponType.Firearm)
         {
             FirearmWeaponController weaponController = GetComponent<FirearmWeaponController>();
-            // weaponController.InitializeWeapon();
-        }
-    }
-
-    public void TriggerAction(bool trigger)
-    {
-        if (weaponType == WeaponType.Firearm)
-        {
-            FirearmWeaponController weaponController = GetComponent<FirearmWeaponController>();
-            weaponController.UpdateLoop(trigger);
+            if (fullAuto && WeaponMode.FullAuto == weaponController.Mode ||
+                !fullAuto && WeaponMode.SingleShot == weaponController.Mode)
+                weaponController.WeaponShoot();
         }
     }
 

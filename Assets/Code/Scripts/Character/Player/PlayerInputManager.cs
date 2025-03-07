@@ -21,6 +21,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool aimInput = false;
     public Vector2 lookInput;
     public bool fireInput = false;
+    public bool continousFireInput = false;
     public bool shoulderSwapInput = false;
 
     [Header("Actions")]
@@ -32,6 +33,7 @@ public class PlayerInputManager : MonoBehaviour
     public bool equipWeapon1 = false;
     public bool equipWeapon2 = false;
     public bool unEquip = false;
+    public bool firing = false;
 
 
     void Awake()
@@ -72,8 +74,10 @@ public class PlayerInputManager : MonoBehaviour
 
         playerControls.PlayerAim.Aim.performed += i => aimInput = true;
         playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
-        playerControls.PlayerAim.Fire.performed += i => fireInput = true;
-        playerControls.PlayerAim.Fire.canceled += i => fireInput = false;
+        playerControls.PlayerAim.SingleFire.performed += i => fireInput = true;
+        playerControls.PlayerAim.SingleFire.canceled += i => fireInput = false;
+        playerControls.PlayerAim.ContinousFire.performed += i => continousFireInput = true;
+        playerControls.PlayerAim.ContinousFire.canceled += i => continousFireInput = false;
         playerControls.PlayerAim.ShoulderSwap.performed += i => shoulderSwapInput = true;
 
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
@@ -181,9 +185,28 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleFireInput()
     {
-        WeaponManager weaponManager = player.playerInventoryManager.currentRightHandWeapon.weaponModel.GetComponent<WeaponManager>();
-        weaponManager.TriggerAction(fireInput && player.isAiming);
-        player.animator.SetBool("fire", fireInput && player.isAiming);
+        if (player.isAiming)
+        {
+            if (continousFireInput)
+            {
+                WeaponManager weaponManager = player.playerEquipmentManager.rightWeaponManager;
+                weaponManager.TriggerAction(true);
+                player.animator.SetBool("fire", true);
+            }
+            else if (fireInput)
+            {
+                fireInput = false;
+                WeaponManager weaponManager = player.playerEquipmentManager.rightWeaponManager;
+                weaponManager.TriggerAction(false);
+                player.animator.SetBool("fire", true);
+            }
+            else
+            {
+                firing = false;
+                player.animator.SetBool("fire", false);
+            }
+        }
+
     }
 
     void HandleShoulderSwapInput()

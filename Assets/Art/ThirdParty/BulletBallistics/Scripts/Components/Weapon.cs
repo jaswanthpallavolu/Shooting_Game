@@ -25,6 +25,12 @@ namespace Ballistics
         [Space]
         [Tooltip("Called when the weapon is fired")]
         public UnityEvent OnShoot;
+
+        void Awake()
+        {
+            BulletSpawnPoint = Camera.main.transform;
+        }
+
         void Start()
         {
 

@@ -277,6 +277,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""SingleFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""2bc9c67d-43f7-4aae-894c-cfd6abd8c9ef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ContinousFire"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f02f083-6dc6-407d-9978-2ded3f967e42"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ShoulderSwap"",
                     ""type"": ""Button"",
                     ""id"": ""cc7329c9-292b-4af6-a698-8893f02c4129"",
@@ -337,6 +355,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Scope"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b1673b20-2f15-4026-8137-aaaa5e4f7a8b"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SingleFire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10a51d18-a8fb-47da-9eab-c8ca64ca2bf9"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(duration=0.15)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ContinousFire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -429,6 +469,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerAim = asset.FindActionMap("Player Aim", throwIfNotFound: true);
         m_PlayerAim_Aim = m_PlayerAim.FindAction("Aim", throwIfNotFound: true);
         m_PlayerAim_Fire = m_PlayerAim.FindAction("Fire", throwIfNotFound: true);
+        m_PlayerAim_SingleFire = m_PlayerAim.FindAction("SingleFire", throwIfNotFound: true);
+        m_PlayerAim_ContinousFire = m_PlayerAim.FindAction("ContinousFire", throwIfNotFound: true);
         m_PlayerAim_ShoulderSwap = m_PlayerAim.FindAction("ShoulderSwap", throwIfNotFound: true);
         m_PlayerAim_Scope = m_PlayerAim.FindAction("Scope", throwIfNotFound: true);
         // Weapon
@@ -639,6 +681,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerAimActions> m_PlayerAimActionsCallbackInterfaces = new List<IPlayerAimActions>();
     private readonly InputAction m_PlayerAim_Aim;
     private readonly InputAction m_PlayerAim_Fire;
+    private readonly InputAction m_PlayerAim_SingleFire;
+    private readonly InputAction m_PlayerAim_ContinousFire;
     private readonly InputAction m_PlayerAim_ShoulderSwap;
     private readonly InputAction m_PlayerAim_Scope;
     public struct PlayerAimActions
@@ -647,6 +691,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public PlayerAimActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Aim => m_Wrapper.m_PlayerAim_Aim;
         public InputAction @Fire => m_Wrapper.m_PlayerAim_Fire;
+        public InputAction @SingleFire => m_Wrapper.m_PlayerAim_SingleFire;
+        public InputAction @ContinousFire => m_Wrapper.m_PlayerAim_ContinousFire;
         public InputAction @ShoulderSwap => m_Wrapper.m_PlayerAim_ShoulderSwap;
         public InputAction @Scope => m_Wrapper.m_PlayerAim_Scope;
         public InputActionMap Get() { return m_Wrapper.m_PlayerAim; }
@@ -664,6 +710,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
+            @SingleFire.started += instance.OnSingleFire;
+            @SingleFire.performed += instance.OnSingleFire;
+            @SingleFire.canceled += instance.OnSingleFire;
+            @ContinousFire.started += instance.OnContinousFire;
+            @ContinousFire.performed += instance.OnContinousFire;
+            @ContinousFire.canceled += instance.OnContinousFire;
             @ShoulderSwap.started += instance.OnShoulderSwap;
             @ShoulderSwap.performed += instance.OnShoulderSwap;
             @ShoulderSwap.canceled += instance.OnShoulderSwap;
@@ -680,6 +732,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
+            @SingleFire.started -= instance.OnSingleFire;
+            @SingleFire.performed -= instance.OnSingleFire;
+            @SingleFire.canceled -= instance.OnSingleFire;
+            @ContinousFire.started -= instance.OnContinousFire;
+            @ContinousFire.performed -= instance.OnContinousFire;
+            @ContinousFire.canceled -= instance.OnContinousFire;
             @ShoulderSwap.started -= instance.OnShoulderSwap;
             @ShoulderSwap.performed -= instance.OnShoulderSwap;
             @ShoulderSwap.canceled -= instance.OnShoulderSwap;
@@ -783,6 +841,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     {
         void OnAim(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnSingleFire(InputAction.CallbackContext context);
+        void OnContinousFire(InputAction.CallbackContext context);
         void OnShoulderSwap(InputAction.CallbackContext context);
         void OnScope(InputAction.CallbackContext context);
     }

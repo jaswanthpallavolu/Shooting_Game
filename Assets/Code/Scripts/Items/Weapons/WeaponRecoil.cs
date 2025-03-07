@@ -20,6 +20,7 @@ namespace SG_Project
 
         void Awake()
         {
+            followTarget = PlayerInputManager.instance.player.playerCameraController.followTarget;
         }
 
         void Start()
