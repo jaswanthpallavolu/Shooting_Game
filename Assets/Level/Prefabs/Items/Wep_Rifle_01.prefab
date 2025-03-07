@@ -45,6 +45,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponRange: 300
+  rigAimTarget: {fileID: 0}
+--- !u!1 &2550819688560211405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5957658140568958649}
+  m_Layer: 0
+  m_Name: visual_bullet_spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5957658140568958649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2550819688560211405}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8382880546553711375}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4379692605278489731
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,6 +255,10 @@ GameObject:
   - component: {fileID: 3898492024047359956}
   - component: {fileID: 7371477200865105152}
   - component: {fileID: -7213214550351536118}
+  - component: {fileID: 114700167490350399}
+  - component: {fileID: 1697951971259332049}
+  - component: {fileID: 7062245680796639615}
+  - component: {fileID: 1510063429956350999}
   m_Layer: 0
   m_Name: Wep_Rifle_01
   m_TagString: Untagged
@@ -248,6 +284,7 @@ Transform:
   - {fileID: 641162087533843905}
   - {fileID: 2799192445794749830}
   - {fileID: 99803049018223917}
+  - {fileID: 5957658140568958649}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3898492024047359956
@@ -315,6 +352,151 @@ MonoBehaviour:
   weaponType: 1
   damageCollider: {fileID: 0}
   weaponDamage: {fileID: 0}
+--- !u!114 &114700167490350399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904119133063208992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff7cddf3bc0f9d4daaa528c6c27095c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletSpawnPoint: {fileID: 0}
+  visualSpawnPoint: {fileID: 5957658140568958649}
+  visualBulletProvider: {fileID: 11400000, guid: 3cd3cd596b74346dda4324fd7f77c2f9, type: 2}
+  BulletInfo: {fileID: 11400000, guid: ff1e8f16904f7e9469ad76f971cc9928, type: 2}
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1697951971259332049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904119133063208992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3471c642ae5c242009e570f87d077fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Weapon: {fileID: 114700167490350399}
+  ShootDelay: 0.25
+  Mode: 2
+  BulletsPerShell: 8
+  BulletsPerBurst: 3
+  SpreadController: {fileID: 7062245680796639615}
+  MagazineController: {fileID: 1510063429956350999}
+  Distances: []
+  triggerHeld: 0
+  triggerReleaseRequired: 0
+  cooldownTimer: 0
+--- !u!114 &7062245680796639615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904119133063208992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463e7e09b3a35dd4cae49b6e9845f32f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpreadAngleHorizontal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SpreadAngleVertical:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SpreadAngleRandom:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0.1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 10
+      value: 1
+      inSlope: 0.1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RecoveryTime: 0.4
+  spreadFactor: 1
+--- !u!114 &1510063429956350999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904119133063208992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c4d3235818e034585eed65b9cccf80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletsPerMagazine: 50
+  InitialMagazineCount: 0
+  OnMagazineEmpty:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8444850534322741293
 GameObject:
   m_ObjectHideFlags: 0

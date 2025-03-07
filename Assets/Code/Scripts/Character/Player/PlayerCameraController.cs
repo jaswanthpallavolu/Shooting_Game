@@ -8,7 +8,7 @@ public class PlayerCameraController : MonoBehaviour
 {
     PlayerManager player;
     [SerializeField] CinemachineVirtualCamera mainCamera;
-    [SerializeField] CinemachineVirtualCamera aimModeCamera;
+    [SerializeField] public CinemachineVirtualCamera aimModeCamera;
     [SerializeField] Transform followTarget;
     [SerializeField] float xLimitMin = -20;
     [SerializeField] float xLimitMax = 50;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Ballistics;
 using UnityEngine;
 
 public class PlayerEquipmentManager : CharacterEquipmentManager
@@ -64,9 +65,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
                 playerManager.playerAnimatorManager.PlayTargetAnimation(equipAnimation, false, true, true, true);
             }
             playerManager.playerAnimatorManager.HandleFirearmAnimRig();
-
-            rightHandWeaponModel = Instantiate(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
-            rightHandSlot.OnLoadWeapon(rightHandWeaponModel);
+            rightHandWeaponModel = rightHandSlot.OnLoadWeapon1(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
             rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
             rightWeaponManager.SetCharacterManager(playerManager);
             rightWeaponManager.SetWeaponDamage(playerManager.playerInventoryManager.currentRightHandWeapon);

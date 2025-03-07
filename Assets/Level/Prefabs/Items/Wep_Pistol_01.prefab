@@ -1,5 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &88212880233247419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6845447611838562895}
+  - component: {fileID: 4586044813711327577}
+  m_Layer: 0
+  m_Name: Bullet_spawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6845447611838562895
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88212880233247419}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.062, z: 0.402}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7569961906967705111}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4586044813711327577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88212880233247419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f5df83cc5d640c5b734ad49190d0c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1447647128902758038
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,6 +421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponRange: 300
+  rigAimTarget: {fileID: 0}
 --- !u!1 &8063480878024516369
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,6 +434,10 @@ GameObject:
   - component: {fileID: 7661839687209345577}
   - component: {fileID: 8381234390141979670}
   - component: {fileID: 1574231277312809640}
+  - component: {fileID: 278705813726048433}
+  - component: {fileID: 4073818268874512162}
+  - component: {fileID: 681911388634081867}
+  - component: {fileID: -4143027538258085687}
   m_Layer: 0
   m_Name: Wep_Pistol_01
   m_TagString: Untagged
@@ -415,6 +464,7 @@ Transform:
   - {fileID: 7585225129354747129}
   - {fileID: 6780428266779634896}
   - {fileID: 2320556307763111897}
+  - {fileID: 6845447611838562895}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7661839687209345577
@@ -482,6 +532,151 @@ MonoBehaviour:
   weaponType: 1
   damageCollider: {fileID: 0}
   weaponDamage: {fileID: 0}
+--- !u!114 &278705813726048433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063480878024516369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff7cddf3bc0f9d4daaa528c6c27095c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletSpawnPoint: {fileID: 0}
+  visualSpawnPoint: {fileID: 6845447611838562895}
+  visualBulletProvider: {fileID: 11400000, guid: 3cd3cd596b74346dda4324fd7f77c2f9, type: 2}
+  BulletInfo: {fileID: 11400000, guid: 3955955db0af74028bb0f0ea0d054239, type: 2}
+  OnShoot:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4073818268874512162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063480878024516369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3471c642ae5c242009e570f87d077fc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Weapon: {fileID: 278705813726048433}
+  ShootDelay: 0.25
+  Mode: 0
+  BulletsPerShell: 8
+  BulletsPerBurst: 3
+  SpreadController: {fileID: 681911388634081867}
+  MagazineController: {fileID: -4143027538258085687}
+  Distances: []
+  triggerHeld: 0
+  triggerReleaseRequired: 0
+  cooldownTimer: -10.888007
+--- !u!114 &681911388634081867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063480878024516369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 463e7e09b3a35dd4cae49b6e9845f32f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpreadAngleHorizontal:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SpreadAngleVertical:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  SpreadAngleRandom:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0.1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 10
+      value: 1
+      inSlope: 0.1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RecoveryTime: 0.4
+  spreadFactor: 1
+--- !u!114 &-4143027538258085687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063480878024516369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c4d3235818e034585eed65b9cccf80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletsPerMagazine: 10
+  InitialMagazineCount: 10
+  OnMagazineEmpty:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8186036263010952670
 GameObject:
   m_ObjectHideFlags: 0

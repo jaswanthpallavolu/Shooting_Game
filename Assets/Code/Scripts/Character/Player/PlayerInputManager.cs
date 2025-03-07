@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ballistics;
+using SG_Project;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -71,6 +73,7 @@ public class PlayerInputManager : MonoBehaviour
         playerControls.PlayerAim.Aim.performed += i => aimInput = true;
         playerControls.PlayerAim.Aim.canceled += i => aimInput = false;
         playerControls.PlayerAim.Fire.performed += i => fireInput = true;
+        playerControls.PlayerAim.Fire.canceled += i => fireInput = false;
         playerControls.PlayerAim.ShoulderSwap.performed += i => shoulderSwapInput = true;
 
         playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
@@ -178,15 +181,9 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleFireInput()
     {
-        if (fireInput && player.isAiming)
-        {
-            fireInput = false;
-            player.animator.SetBool("fire", true);
-        }
-        else
-        {
-            player.animator.SetBool("fire", false);
-        }
+        WeaponManager weaponManager = player.playerInventoryManager.currentRightHandWeapon.weaponModel.GetComponent<WeaponManager>();
+        weaponManager.TriggerAction(fireInput && player.isAiming);
+        player.animator.SetBool("fire", fireInput && player.isAiming);
     }
 
     void HandleShoulderSwapInput()

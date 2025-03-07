@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Ballistics;
+using SG_Project;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -17,6 +19,24 @@ public class WeaponManager : MonoBehaviour
         else if (weaponType == WeaponType.Melee)
         {
             damageCollider = GetComponentInChildren<DamageCollider>();
+        }
+    }
+
+    public void Initiliaze()
+    {
+        if (weaponType == WeaponType.Firearm)
+        {
+            FirearmWeaponController weaponController = GetComponent<FirearmWeaponController>();
+            // weaponController.InitializeWeapon();
+        }
+    }
+
+    public void TriggerAction(bool trigger)
+    {
+        if (weaponType == WeaponType.Firearm)
+        {
+            FirearmWeaponController weaponController = GetComponent<FirearmWeaponController>();
+            weaponController.UpdateLoop(trigger);
         }
     }
 
