@@ -257,9 +257,9 @@ GameObject:
   - component: {fileID: -7213214550351536118}
   - component: {fileID: 114700167490350399}
   - component: {fileID: 1697951971259332049}
-  - component: {fileID: 7062245680796639615}
   - component: {fileID: 1510063429956350999}
   - component: {fileID: 2034214368170070941}
+  - component: {fileID: -3036442072810064394}
   m_Layer: 0
   m_Name: Wep_Rifle_01
   m_TagString: Untagged
@@ -386,102 +386,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Weapon: {fileID: 114700167490350399}
   weaponRecoil: {fileID: 2034214368170070941}
-  ShootDelay: 0.25
+  ShootDelay: 0.15
   Mode: 2
   BulletsPerShell: 8
   BulletsPerBurst: 3
-  SpreadController: {fileID: 7062245680796639615}
+  SpreadController: {fileID: 0}
   MagazineController: {fileID: 1510063429956350999}
+  weaponSpread: {fileID: -3036442072810064394}
+  crosshairController: {fileID: 0}
   Distances: []
   triggerHeld: 0
   triggerReleaseRequired: 0
   cooldownTimer: 0
---- !u!114 &7062245680796639615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7904119133063208992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 463e7e09b3a35dd4cae49b6e9845f32f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SpreadAngleHorizontal:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  SpreadAngleVertical:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  SpreadAngleRandom:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0.1
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 10
-      value: 1
-      inSlope: 0.1
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  RecoveryTime: 0.4
-  spreadFactor: 1
 --- !u!114 &1510063429956350999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,14 +428,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   followTarget: {fileID: 0}
+  recoilAmount: 0
+  recoilSpeed: 0.1
+  recoilCorrectionTime: 0.25
+  currentRotation: {x: 0, y: 0, z: 0}
   originalRotation: {x: 0, y: 0, z: 0}
-  recoilRotation: {x: 0, y: 0, z: 0}
-  isRecoiling: 0
-  xRecoil: 0.25
-  yRecoil: 0.25
-  zRecoil: 0.25
-  recoilSpeed: 0.5
-  recoilResetSpeed: 0.5
+  targetRotation: {x: -2, y: 0, z: 0}
+--- !u!114 &-3036442072810064394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904119133063208992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d1f8b356db214f1ba9949ac9074563d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseSpread: {x: 0.1, y: 0.1, z: 0.1}
+  direction: {x: 0, y: 0, z: 0}
+  maxSpreaad: 0.5
+  spread: 0
+  correctionTime: 0.5
+  currSpread: 0
 --- !u!1 &8444850534322741293
 GameObject:
   m_ObjectHideFlags: 0

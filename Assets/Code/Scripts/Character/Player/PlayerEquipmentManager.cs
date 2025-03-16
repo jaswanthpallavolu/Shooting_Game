@@ -65,7 +65,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
                 playerManager.playerAnimatorManager.PlayTargetAnimation(equipAnimation, false, true, true, true);
             }
             playerManager.playerAnimatorManager.HandleFirearmAnimRig();
-            rightHandWeaponModel = rightHandSlot.OnLoadWeapon1(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
+            rightHandWeaponModel = Instantiate(playerManager.playerInventoryManager.currentRightHandWeapon.weaponModel);
+            rightHandSlot.OnLoadWeapon(rightHandWeaponModel);
             rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
             rightWeaponManager.SetCharacterManager(playerManager);
             rightWeaponManager.SetWeaponDamage(playerManager.playerInventoryManager.currentRightHandWeapon);

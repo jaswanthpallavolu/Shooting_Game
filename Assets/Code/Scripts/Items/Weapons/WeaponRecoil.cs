@@ -9,44 +9,46 @@ namespace SG_Project
     {
         // Kick, Vertical recoil
         public Transform followTarget;
+
+        [Header("Recoil")]
+        public float recoilAmount = 0f;
+        public float recoilSpeed = 0.1f;
+        public float recoilCorrectionTime = 0.25f;
+        public Vector3 currentRotation;
         public Vector3 originalRotation;
-        public Vector3 recoilRotation;
-        public bool isRecoiling = false;
-        public float xRecoil = 0.25f;
-        public float yRecoil = 0.25f;
-        public float zRecoil = 0.25f;
-        public float recoilSpeed = .5f;
-        public float recoilResetSpeed = .5f;
+        public Vector3 targetRotation = new Vector3(-15f, 0, 0);
 
         void Awake()
         {
             followTarget = PlayerInputManager.instance.player.playerCameraController.followTarget;
+            originalRotation = followTarget.localEulerAngles;
         }
 
         void Start()
         {
+
         }
 
         void Update()
         {
+            // followTarget.localRotation = Quaternion.Lerp(followTarget.localRotation, originalRotation, Time.deltaTime * returnSpeed);
+            // targetRotation = Vector3.Lerp(targetRotation, originalRotation, returnSpeed * Time.deltaTime);
+            if (recoilAmount > 0)
+            {
+                Vector3 defaultRotation = originalRotation;
+                currentRotation = Vector3.Lerp(defaultRotation, defaultRotation + targetRotation, recoilAmount * recoilSpeed);
+                followTarget.localRotation = Quaternion.Euler(currentRotation);
+                recoilAmount = Mathf.Clamp01(recoilAmount - (Time.deltaTime / recoilCorrectionTime));
+            }
+            // Invoke("StopRecoil", 1f);
+
+
         }
 
         public void FireRecoil()
         {
-            Debug.Log(followTarget.localPosition);
-            // originalRotation = followTarget.localPosition;
-            // recoilPosition = new Vector3(
-            // originalPosition.x + Random.Range(-xRecoil, xRecoil),
-            // originalPosition.y + Random.Range(-yRecoil, yRecoil),
-            // originalPosition.z
-            // );
-            // targetRotation += new Vector3(xRecoil, Random.Range(-yRecoil, yRecoil), 0);
-
-        }
-
-        private void StopRecoil()
-        {
-            isRecoiling = false;
+            originalRotation = followTarget.localEulerAngles;
+            recoilAmount = Mathf.Clamp01(recoilAmount + 1f);
         }
     }
 }

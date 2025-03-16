@@ -28,7 +28,7 @@ public class WeaponManager : MonoBehaviour
         {
             FirearmWeaponController weaponController = GetComponent<FirearmWeaponController>();
             if (fullAuto && WeaponMode.FullAuto == weaponController.Mode ||
-                !fullAuto && WeaponMode.SingleShot == weaponController.Mode)
+                !fullAuto && (WeaponMode.SingleShot == weaponController.Mode || WeaponMode.FullAuto == weaponController.Mode))
                 weaponController.WeaponShoot();
         }
     }

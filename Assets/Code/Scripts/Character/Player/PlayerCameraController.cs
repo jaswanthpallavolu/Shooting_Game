@@ -37,7 +37,6 @@ public class PlayerCameraController : MonoBehaviour
         {
             aimModeCamera.enabled = true;
 
-
             if (!aimMode)
             {
                 Quaternion look = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
@@ -50,7 +49,6 @@ public class PlayerCameraController : MonoBehaviour
                 xRotation = xAngle;
                 followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
                 player.transform.rotation = Quaternion.Euler(0, look.eulerAngles.y, 0);
-
             }
 
             if (aimMode)

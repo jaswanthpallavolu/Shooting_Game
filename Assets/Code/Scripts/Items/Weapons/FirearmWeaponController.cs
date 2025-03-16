@@ -25,6 +25,11 @@ namespace SG_Project
         [Header("Controllers")]
         public SpreadController SpreadController;
         public MagazineController MagazineController;
+        public WeaponSpread weaponSpread;
+
+        [Header("UI")]
+        public CrosshairController crosshairController;
+        bool aiming = false;
 
         [Header("Zeroing")]
         public List<float> Distances;
@@ -56,22 +61,21 @@ namespace SG_Project
         //     // CheckShoot(triggerHeld);
         // }
 
+        void Awake()
+        {
+            crosshairController = UIManager.instance.crosshairController;
+        }
+
         private void Start()
         {
-            UpdateZeroing();
-            // if (!SpreadController)
-            //     SpreadController = gameObject.AddComponent<SpreadController>();
-            // if (!MagazineController)
-            //     MagazineController = gameObject.AddComponent<MagazineController>();
+            // UpdateZeroing();
         }
 
         private void Update()
         {
-            // CheckShoot();
-            // Debug.Log(cooldownTimer);
-            // CheckShoot(triggerHeld);
+            OnAiming();
             cooldownTimer -= Time.deltaTime;
-
+            crosshairController.SetMultiplier(weaponSpread.spread);
         }
 
         public void UpdateLoop(bool th)
@@ -89,6 +93,25 @@ namespace SG_Project
             // CheckShoot(th);
             // cooldownTimer -= Time.deltaTime;
 
+        }
+
+        public void OnAiming()
+        {
+            bool aim = PlayerInputManager.instance.aimInput;
+            if (aim)
+            {
+                if (!aiming)
+                {
+                    aiming = true;
+                    weaponSpread.ResetSpread();
+                    crosshairController.ToogleCrossHair(true);
+                }
+            }
+            else
+            {
+                aiming = false;
+                crosshairController.ToogleCrossHair(false);
+            }
         }
 
         public void WeaponShoot()
@@ -154,10 +177,11 @@ namespace SG_Project
         {
             // Debug.Log("Shoot " + bullets);
             for (var i = bullets; i > 0; i--)
-                Weapon.Shoot(SpreadController.CalculateShootDirection(Weapon), CurrentZeroing().Angle);
+                Weapon.Shoot(weaponSpread.CalculateShootDirection(Weapon), CurrentZeroing().Angle);
             cooldownTimer = cooldown;
             weaponRecoil.FireRecoil();
-            SpreadController.BulletFired();
+            if (weaponSpread)
+                weaponSpread.BulletFired();
             MagazineController.BulletFired();
         }
 

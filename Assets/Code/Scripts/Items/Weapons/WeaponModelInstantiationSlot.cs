@@ -26,19 +26,4 @@ public class WeaponModelInstantiationSlot : MonoBehaviour
         weaponModel.transform.localRotation = Quaternion.identity;
         weaponModel.transform.localScale = Vector3.one;
     }
-
-    public GameObject OnLoadWeapon1(GameObject weaponModel)
-    {
-        weaponModel = Instantiate(weaponModel, transform, false);
-        currentWeaponModel = weaponModel;
-        WeaponManager weaponManager = weaponModel.GetComponent<WeaponManager>();
-        // weaponManager.We.BulletSpawnPoint = Camera.main.transform;
-        weaponManager.Initiliaze();
-        // Weapon weapon = weaponModel.GetComponent<Weapon>();
-        // if (weapon)
-        // {
-        //     weapon.BulletSpawnPoint = Camera.main.transform;
-        // }
-        return weaponModel;
-    }
 }

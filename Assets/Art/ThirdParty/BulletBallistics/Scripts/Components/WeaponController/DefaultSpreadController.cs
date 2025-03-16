@@ -18,10 +18,15 @@ namespace Ballistics
         [Min(.001f), Tooltip("Time in seconds (since the last shot) after which the spread pattern is reset to the beginning.")]
         public float RecoveryTime = .4f;
 
-        private int currentShot = 0;
+        public int currentShot = 0;
         private float timer = 0;
-        private float baseSpread;
+        public float baseSpread;
         public float spreadFactor = 1;
+
+        [Header("Spread")]
+        public float maxSpreaad = 2f;
+        public float spread = 0f;
+        public float correctionTime = 0.25f;
 
         void Update()
         {
@@ -31,17 +36,28 @@ namespace Ballistics
                 if (timer <= 0)
                     currentShot = 0;
             }
+
+            if (spread > 0)
+            {
+                spread = spread - (Time.deltaTime / correctionTime);
+            }
+            else
+            {
+                spread = 0;
+            }
         }
 
         public override void BulletFired()
         {
             timer = RecoveryTime;
             currentShot++;
+            spread = maxSpreaad;
         }
 
         public override Vector3 CalculateShootDirection(Weapon weapon)
         {
             // return weapon.BulletSpawnPoint.forward;
+            baseSpread = spread;
             var vertical = SpreadAngleVertical.Evaluate(currentShot) * spreadFactor;
             var horizontal = SpreadAngleHorizontal.Evaluate(currentShot) * spreadFactor;
             var random = (SpreadAngleRandom.Evaluate(currentShot) + baseSpread) * spreadFactor;
@@ -56,6 +72,11 @@ namespace Ballistics
         {
             baseSpread = spread;
             spreadFactor = factor;
+        }
+
+        public void ResetSpread()
+        {
+            spread = maxSpreaad;
         }
     }
 }
