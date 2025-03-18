@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8948d172603484cf58f4437110ef0b51, type: 3}
-  m_Name: PistolWeapon
+  m_Name: HuntingRifleWeapon
   m_EditorClassIdentifier: 
-  itemName: Wep Pistol
+  itemName: Wep Rifle
   itemIcon: {fileID: 0}
   itemDescription: 
-  itemId: 1
-  equipAnimation: HG_Equip
-  unEquipAnimation: HG_Unequip
-  weaponAnimState: 1
-  weaponModel: {fileID: 3528558081889090239, guid: 73b2e052f7cce4658896b1ffb3bfb55f, type: 3}
+  itemId: 2
+  equipAnimation: AR_Equip
+  unEquipAnimation: AR_Unequip
+  weaponAnimState: 2
+  weaponModel: {fileID: 3971190033671620927, guid: e2497d307ff904eb9a34974be364ffa3, type: 3}
   physicalDamage: 0
   light_attack_01_modifier: 1
   baseStaminaCost: 0

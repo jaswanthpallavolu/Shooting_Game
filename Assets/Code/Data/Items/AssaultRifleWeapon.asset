@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8948d172603484cf58f4437110ef0b51, type: 3}
-  m_Name: RifleWeapon
+  m_Name: AssaultRifleWeapon
   m_EditorClassIdentifier: 
   itemName: Wep Rifle
   itemIcon: {fileID: 0}
@@ -19,7 +19,7 @@ MonoBehaviour:
   equipAnimation: AR_Equip
   unEquipAnimation: AR_Unequip
   weaponAnimState: 2
-  weaponModel: {fileID: 7904119133063208992, guid: 1332103e454ef4fb2a44b56e9cc4a80a, type: 3}
+  weaponModel: {fileID: 9039820090277183072, guid: 6ad9523fce5bc4e128bcbd196378f91a, type: 3}
   physicalDamage: 0
   light_attack_01_modifier: 1
   baseStaminaCost: 0

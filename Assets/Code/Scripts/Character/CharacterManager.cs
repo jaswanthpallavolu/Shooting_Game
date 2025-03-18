@@ -22,6 +22,7 @@ public class CharacterManager : MonoBehaviour
     public bool isOwner = true;
     public bool isAiming = false;
     public bool isCrouching = false;
+    public bool isRecoiling = false;
 
     [Header("Custom")]
     public MovementType movementType;

@@ -7,8 +7,9 @@ namespace SG_Project
 {
     public class FirearmWeaponController : MonoBehaviour
     {
-        [SerializeField] Weapon Weapon;
-        [SerializeField] WeaponRecoil weaponRecoil;
+        public CharacterManager Character { get; set; }
+        private Weapon Weapon;
+        private WeaponRecoil weaponRecoil;
 
         [Tooltip("Time in seconds between shots")]
         public float ShootDelay = 0.25f;
@@ -23,8 +24,8 @@ namespace SG_Project
         public int BulletsPerBurst = 3;
 
         [Header("Controllers")]
-        public SpreadController SpreadController;
-        public MagazineController MagazineController;
+        // public SpreadController SpreadController;
+        // public MagazineController MagazineController;
         public WeaponSpread weaponSpread;
 
         [Header("UI")]
@@ -64,6 +65,9 @@ namespace SG_Project
         void Awake()
         {
             crosshairController = UIManager.instance.crosshairController;
+            Weapon = GetComponent<Weapon>();
+            weaponRecoil = GetComponent<WeaponRecoil>();
+            weaponSpread = GetComponent<WeaponSpread>();
         }
 
         private void Start()
@@ -74,25 +78,9 @@ namespace SG_Project
         private void Update()
         {
             OnAiming();
+            HandleAimOffset();
             cooldownTimer -= Time.deltaTime;
             crosshairController.SetMultiplier(weaponSpread.spread);
-        }
-
-        public void UpdateLoop(bool th)
-        {
-            // if (!Weapon.BulletSpawnPoint)
-            // {
-            //     Weapon.BulletSpawnPoint = Camera.main.transform;
-            // }
-            // if (!weaponRecoil.followTarget)
-            // {
-            //     weaponRecoil.followTarget = PlayerInputManager.instance.player.playerCameraController.followTarget;
-            // }
-            // bool f = PlayerInputManager.instance.fireInput;
-            // bool aim = PlayerInputManager.instance.aimInput;
-            // CheckShoot(th);
-            // cooldownTimer -= Time.deltaTime;
-
         }
 
         public void OnAiming()
@@ -112,6 +100,13 @@ namespace SG_Project
                 aiming = false;
                 crosshairController.ToogleCrossHair(false);
             }
+        }
+
+        public void HandleAimOffset()
+        {
+            Transform rigAimTarget = Character.characterAnimatorManager.currentRigAimTarget;
+            Vector3 aimPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, Character.aimOffsetRange));
+            rigAimTarget.position = aimPosition;
         }
 
         public void WeaponShoot()
@@ -180,9 +175,8 @@ namespace SG_Project
                 Weapon.Shoot(weaponSpread.CalculateShootDirection(Weapon), CurrentZeroing().Angle);
             cooldownTimer = cooldown;
             weaponRecoil.FireRecoil();
-            if (weaponSpread)
-                weaponSpread.BulletFired();
-            MagazineController.BulletFired();
+            weaponSpread.BulletFired();
+            // MagazineController.BulletFired();
         }
 
         public void UpdateZeroing()

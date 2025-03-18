@@ -8,13 +8,14 @@ public class PlayerCameraController : MonoBehaviour
 {
     PlayerManager player;
     [SerializeField] CinemachineVirtualCamera mainCamera;
-    [SerializeField] public CinemachineVirtualCamera aimModeCamera;
+    public CinemachineVirtualCamera aimModeCamera;
     [SerializeField] public Transform followTarget;
     [SerializeField] float xLimitMin = -20;
     [SerializeField] float xLimitMax = 50;
     [SerializeField] Vector2 defaultSpeed = new Vector2(200, 300);
     [SerializeField] Vector2 cameraSensitivity = new Vector2(50, 50);
     [SerializeField] Vector2 aimSensitivity = new Vector2(50, 50);
+    [SerializeField] float lerpSpeed = 2f;
     Vector3 lookInput;
     float xRotation;
     bool aimMode;
@@ -68,6 +69,8 @@ public class PlayerCameraController : MonoBehaviour
 
     private void OnAimView()
     {
+        if (lookInput.magnitude >= 0.1f)
+            player.isRecoiling = false;
         xRotation -= lookInput.y * aimSensitivity.x * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, xLimitMin, xLimitMax);
         followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
@@ -83,9 +86,5 @@ public class PlayerCameraController : MonoBehaviour
         {
             aimModeCameraBody.CameraSide = aimModeCameraBody.CameraSide == 1 ? 0 : 1;
         }
-        // else
-        // {
-        //     aimModeCameraBody.CameraSide = 1;
-        // }
     }
 }
