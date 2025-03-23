@@ -16,7 +16,7 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] Vector2 cameraSensitivity = new Vector2(50, 50);
     [SerializeField] Vector2 aimSensitivity = new Vector2(50, 50);
     [SerializeField] float lerpSpeed = 2f;
-    Vector3 lookInput;
+    public Vector3 lookInput;
     float xRotation;
     bool aimMode;
 
@@ -71,11 +71,17 @@ public class PlayerCameraController : MonoBehaviour
     {
         if (lookInput.magnitude >= 0.1f)
             player.isRecoiling = false;
-        xRotation -= lookInput.y * aimSensitivity.x * Time.deltaTime;
+        onAimRotate(lookInput.x, lookInput.y);
+
+    }
+
+    public void onAimRotate(float x, float y)
+    {
+        xRotation -= y * aimSensitivity.x * Time.deltaTime;
         xRotation = Mathf.Clamp(xRotation, xLimitMin, xLimitMax);
         followTarget.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
 
-        float moveX = lookInput.x * aimSensitivity.y * Time.deltaTime;
+        float moveX = x * aimSensitivity.y * Time.deltaTime;
         player.transform.Rotate(Vector3.up * moveX);
     }
 

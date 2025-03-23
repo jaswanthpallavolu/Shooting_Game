@@ -1120,7 +1120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3471c642ae5c242009e570f87d077fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShootDelay: 0.15
+  ShootDelay: 0.1
   Mode: 2
   BulletsPerShell: 8
   BulletsPerBurst: 3

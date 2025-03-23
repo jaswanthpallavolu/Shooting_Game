@@ -175,7 +175,7 @@ namespace SG_Project
                 Weapon.Shoot(weaponSpread.CalculateShootDirection(Weapon), CurrentZeroing().Angle);
             cooldownTimer = cooldown;
             weaponRecoil.FireRecoil();
-            weaponSpread.BulletFired();
+            // weaponSpread.BulletFired();
             // MagazineController.BulletFired();
         }
 

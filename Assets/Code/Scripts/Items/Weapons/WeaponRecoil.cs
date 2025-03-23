@@ -26,7 +26,6 @@ namespace SG_Project
         public Vector3 targetRotation = new Vector3(-2f, 0, 0);
         public GameObject weaponModel;
 
-
         bool upward = false;
         bool downward = false;
         int count = 0;
@@ -77,7 +76,7 @@ namespace SG_Project
                 }
             }
 
-            //     // aimModeCamera.m_Lens.FieldOfView = (int)Mathf.Lerp(aimModeCamera.m_Lens.FieldOfView, 30, recoilAmount * recoilSpeed);
+            // aimModeCamera.m_Lens.FieldOfView = (int)Mathf.Lerp(aimModeCamera.m_Lens.FieldOfView, 30, recoilAmount * recoilSpeed);
         }
 
         public void FireRecoil()
