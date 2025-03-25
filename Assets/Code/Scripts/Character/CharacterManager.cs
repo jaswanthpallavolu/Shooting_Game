@@ -22,7 +22,10 @@ public class CharacterManager : MonoBehaviour
     public bool isOwner = true;
     public bool isAiming = false;
     public bool isCrouching = false;
+
+    [Header("Weapon Flags")]
     public bool isRecoiling = false;
+    public bool isReturning = false;
 
     [Header("Custom")]
     public MovementType movementType;

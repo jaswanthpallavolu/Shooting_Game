@@ -12,31 +12,32 @@ namespace SG_Project
         PlayerManager playerManager;
         Transform followTarget;
         CinemachineVirtualCamera aimModeCamera;
-        [SerializeField] float targetFOV = 31;
-        [SerializeField] float multiplier = 5f;
+
 
         [Header("Recoil")]
         public float recoilAmount = 0f;
-        // public float recoilSpeed = 0.1f;
-        public float recoilCorrectionTime = 0.1f;
+        public float recoilSpeed = 1f;
+        public float returnSpeed = 2f;
+        public float recoilCorrectionTime = 0.25f;
         public Vector3 target;
         public Vector3 original;
         public Vector3 wtarget;
         public Vector3 woriginal;
-        public Vector3 targetRotation = new Vector3(-2f, 0, 0);
         public GameObject weaponModel;
+        public float degree = 5f;
+        float count;
+        [SerializeField] float multiplier = .1f;
 
-        bool upward = false;
-        bool downward = false;
-        int count = 0;
+        [Header("Method 3")]
+        [SerializeField] float recoilVertical = 0.7f;
+        [SerializeField] float recoilHorizontal = 0.45f;
+        [SerializeField] float recoilDuration = 0.25f;
 
         void Awake()
         {
             playerManager = PlayerInputManager.instance.player;
             followTarget = playerManager.playerCameraController.followTarget;
             aimModeCamera = playerManager.playerCameraController.aimModeCamera;
-
-            // originalRotation = followTarget.localEulerAngles;
         }
 
         void Start()
@@ -47,58 +48,53 @@ namespace SG_Project
         void Update()
         {
             weaponModel = playerManager.playerEquipmentManager.rightHandWeaponModel;
-            if (playerManager.isRecoiling)
+            if (playerManager.isRecoiling || playerManager.isReturning)
             {
-                followTarget.localEulerAngles = Vector3.Lerp(original, target, recoilAmount);
+                followTarget.localEulerAngles = Vector3.Slerp(original, target, recoilAmount);
+                // wierd behaviour at (0,0,0);
             }
             weaponModel.transform.localEulerAngles = Vector3.Lerp(woriginal, wtarget, recoilAmount);
 
-            if (upward)
+            if (playerManager.isRecoiling)
             {
-
-                recoilAmount = Mathf.Clamp01(recoilAmount + (Time.deltaTime / recoilCorrectionTime));
                 if (recoilAmount == 1)
                 {
-                    upward = false;
-                    downward = true;
+                    playerManager.isRecoiling = false;
+                    playerManager.isReturning = true;
                 }
+                recoilAmount = Mathf.Clamp01(recoilAmount + (Time.deltaTime / recoilCorrectionTime * recoilSpeed));
             }
-            else if (downward)
+            else if (playerManager.isReturning)
             {
-                // followTarget.localEulerAngles = Vector3.Lerp(followTarget.localEulerAngles, original, recoilAmount);
-                recoilAmount = Mathf.Clamp01(recoilAmount - (Time.deltaTime / recoilCorrectionTime));
                 if (recoilAmount == 0)
                 {
-                    upward = false;
-                    downward = false;
-                    playerManager.isRecoiling = false;
+                    playerManager.isReturning = false;
                     count = 0;
                 }
+                recoilAmount = Mathf.Clamp01(recoilAmount - (Time.deltaTime / recoilCorrectionTime * returnSpeed));
             }
-
-            // aimModeCamera.m_Lens.FieldOfView = (int)Mathf.Lerp(aimModeCamera.m_Lens.FieldOfView, 30, recoilAmount * recoilSpeed);
         }
 
         public void FireRecoil()
         {
-
-            if (count == 0)
+            if (!playerManager.isRecoiling)
             {
-                // original = followTarget.localEulerAngles;
-                woriginal = weaponModel.transform.localEulerAngles;
-                wtarget = weaponModel.transform.localEulerAngles + targetRotation * multiplier;
+                float amountVertical = recoilVertical * degree;
+                float amountHorizontal = recoilHorizontal * degree / 2;
+                Vector3 rotation = new Vector3(-amountVertical, amountHorizontal, 0);
+                if (count == 0)
+                {
+                    woriginal = weaponModel.transform.localEulerAngles;
+                    wtarget = weaponModel.transform.localEulerAngles + new Vector3(-2f, 0, 0) * multiplier;
+                }
+                count++;
+
+                original = followTarget.localEulerAngles;
+                target = followTarget.localEulerAngles + rotation;
+                recoilAmount = 0;
+                playerManager.isRecoiling = true;
+                playerManager.isReturning = false;
             }
-            count++;
-            original = followTarget.localEulerAngles;
-            target = followTarget.localEulerAngles + targetRotation;
-
-            // woriginal = weaponModel.transform.localEulerAngles;
-
-
-            playerManager.isRecoiling = true;
-            upward = true;
-            downward = false;
-            recoilAmount = 0;
         }
     }
 }

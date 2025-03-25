@@ -69,9 +69,14 @@ public class PlayerCameraController : MonoBehaviour
 
     private void OnAimView()
     {
-        if (lookInput.magnitude >= 0.1f)
-            player.isRecoiling = false;
-        onAimRotate(lookInput.x, lookInput.y);
+        if (player.isRecoiling) return;
+        if (lookInput.magnitude > 0f)
+        {
+            player.isReturning = false;
+            onAimRotate(lookInput.x, lookInput.y);
+        }
+
+
 
     }
 
