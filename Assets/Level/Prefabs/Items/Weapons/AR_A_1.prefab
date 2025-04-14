@@ -1160,13 +1160,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e4310fb069544f3c899bfb3424e78d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetFOV: 31.25
-  multiplier: 1
   recoilAmount: 0
-  recoilCorrectionTime: 0.1
-  target: {x: 0, y: 0, z: 0}
-  original: {x: 0, y: 0, z: 0}
-  wtarget: {x: 0, y: 0, z: 0}
-  woriginal: {x: 0, y: 0, z: 0}
-  targetRotation: {x: -0.2, y: 0, z: 0}
-  weaponModel: {fileID: 0}
+  recoilDuration: 0.1
+  recenterDuration: 0.25
+  relativeY: 0.5
+  relativeX: 0.25
+  weaponRotation: {x: -2, y: 0, z: 0}
+  multiplier: 1
+  recoilVertical: 1.1
+  recoilHorizontal: 0.1
+  sumX: 0
+  sumY: 0
+  sumX1: 0
+  sumY1: 0

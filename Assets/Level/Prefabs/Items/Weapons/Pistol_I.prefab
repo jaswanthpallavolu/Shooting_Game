@@ -194,19 +194,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoilAmount: 0
-  recoilSpeed: 2
-  returnSpeed: 3
-  recoilCorrectionTime: 0.2
-  target: {x: 0, y: 0, z: 0}
-  original: {x: 0, y: 0, z: 0}
-  wtarget: {x: 0, y: 0, z: 0}
-  woriginal: {x: 0, y: 0, z: 0}
-  weaponModel: {fileID: 0}
-  degree: 5
+  recoilDuration: 0.1
+  recenterDuration: 0.25
+  relativeY: 1
+  relativeX: 1
+  weaponRotation: {x: -2, y: 0, z: 0}
   multiplier: 1
   recoilVertical: 0.7
   recoilHorizontal: 0.45
-  recoilDuration: 0.25
+  sumX: 0
+  sumY: 0
+  sumX1: 0
+  sumY1: 0
 --- !u!114 &7274386809600183789
 MonoBehaviour:
   m_ObjectHideFlags: 0
