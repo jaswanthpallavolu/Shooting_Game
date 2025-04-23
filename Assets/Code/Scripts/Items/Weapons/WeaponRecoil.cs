@@ -9,6 +9,7 @@ namespace SG_Project
     {
         [Header("Player components")]
         PlayerManager playerManager;
+        CinemachineImpulseSource impulseSource;
 
         [Header("Recoil")]
         public float recoilAmount = 0f;
@@ -33,6 +34,7 @@ namespace SG_Project
         void Awake()
         {
             playerManager = PlayerInputManager.instance.player;
+            impulseSource = GetComponent<CinemachineImpulseSource>();
         }
 
         void Start()
@@ -46,23 +48,28 @@ namespace SG_Project
             if (playerManager.isRecoiling)
             {
                 recoilAmount = Mathf.Clamp01(recoilAmount + Time.deltaTime / recoilDuration);
-                Recoiling();
+                // Recoiling();
                 if (recoilAmount == 1)
                 {
                     playerManager.isRecoiling = false;
                     playerManager.isReturning = true;
                     // recoilAmount = 0;
+
+
+
                 }
             }
             else if (playerManager.isReturning)
             {
+
                 recoilAmount = Mathf.Clamp01(recoilAmount - Time.deltaTime / recenterDuration);
-                Recentering();
+                // Recentering();
                 if (recoilAmount == 0)
                 {
                     playerManager.isRecoiling = false;
                     playerManager.isReturning = false;
                     bulletCount = 0;
+
                 }
             }
         }
@@ -76,7 +83,7 @@ namespace SG_Project
             sumX += x;
             sumY += y;
             Debug.Log(x + ", " + y);
-            playerManager.playerCameraController.onAimRotate(x, y);
+            playerManager.playerCameraController.onAimRotate1(x, y);
         }
 
         void Recentering()
@@ -102,8 +109,11 @@ namespace SG_Project
 
         public void FireRecoil()
         {
+            // impulseSource.GenerateImpulse();
             if (!playerManager.isRecoiling)
             {
+                impulseSource.GenerateImpulse(Camera.main.transform.forward);
+
                 if (bulletCount == 0)
                 {
                     woriginal = weaponModel.transform.localEulerAngles;

@@ -25,12 +25,17 @@ public class WeaponDamage : MonoBehaviour
 
         Vector3 aimPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, CharacterCausingDamage.aimOffsetRange));
         // rigAimTarget.localPosition = new Vector3(rigAimTarget.localPosition.x, aimPosition.y, rigAimTarget.localPosition.z);
-        rigAimTarget.position = aimPosition;
 
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        // if(Physics.Raycast(ray, out RaycastHit hit, weaponRange)){
-
-        // }
+        Vector3 origin = new Vector3(screenCenterPoint.x, screenCenterPoint.y, 0);
+        Debug.Log(ray.origin);
+        Debug.DrawLine(ray.origin, origin + new Vector3(0, 0, CharacterCausingDamage.aimOffsetRange), Color.red);
+        if (Physics.Raycast(ray, out RaycastHit hit, CharacterCausingDamage.aimOffsetRange))
+        {
+            Debug.Log(hit.point);
+            aimPosition = hit.point;
+        }
+        rigAimTarget.position = aimPosition;
     }
 
     void FireWeapon()

@@ -14,7 +14,7 @@ public class PlayerInputManager : MonoBehaviour
     [HideInInspector] public PlayerManager player;
 
     [Header("Movement Input")]
-    [SerializeField] Vector2 movementInput;
+    [SerializeField] public Vector2 movementInput;
     public float verticalInput, horizontalInput, moveAmount;
 
     [Header("Aiming")]

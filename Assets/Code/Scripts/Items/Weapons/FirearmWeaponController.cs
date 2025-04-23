@@ -106,6 +106,14 @@ namespace SG_Project
         {
             Transform rigAimTarget = Character.characterAnimatorManager.currentRigAimTarget;
             Vector3 aimPosition = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, Character.aimOffsetRange));
+            Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2f, Screen.height / 2f));
+            // Debug.DrawLine(ray.origin, ray.origin + Camera.main.transform.forward * Character.aimOffsetRange, Color.red);
+            if (Physics.Raycast(ray.origin, Camera.main.transform.forward, out RaycastHit hit, Character.aimOffsetRange))
+            {
+                // Debug.Log(hit.point + " " + Vector3.Distance(hit.point, Character.transform.position));
+                if (Vector3.Distance(hit.point, Character.transform.position) >= 2.5f)
+                    aimPosition = hit.point;
+            }
             rigAimTarget.position = aimPosition;
         }
 

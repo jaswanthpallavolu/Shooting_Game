@@ -109,9 +109,10 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         if (moveDirection.magnitude >= 0.1f)
         {
             // TURN THE BODY TO FACE THE CAMERA FORWARD DIRECTION
-            Quaternion look = Quaternion.LookRotation(Camera.main.transform.forward, Camera.main.transform.up);
-            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, look.eulerAngles.y, ref turnSmoothVelocity, .1f);
-            transform.rotation = Quaternion.Euler(0f, angle, 0);
+            // Quaternion look = Quaternion.LookRotation(Camera.main.transform.forward, Camera.main.transform.up);
+            // float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, look.eulerAngles.y, ref turnSmoothVelocity, .1f);
+            // transform.rotation = Quaternion.Euler(0f, angle, 0);
+            player.playerCameraController.HandlePlayerRotation();
 
             float movementSpeed = GetMovementSpeed(moveAmount);
             debugMoveSpeed = movementSpeed;
